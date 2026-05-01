@@ -8,16 +8,9 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
-    integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
-    integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
-    integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
-    crossorigin="anonymous"></script>
+  <script defer src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -387,6 +380,36 @@
       return tw;
     }
 
+    function LazyMount({ children, minHeight = 800, rootMargin = '320px 0px' }) {
+      const holderRef = useRef(null);
+      const [isMounted, setIsMounted] = useState(false);
+
+      useEffect(() => {
+        if (isMounted) return;
+        const node = holderRef.current;
+        if (!node || !window.IntersectionObserver) {
+          setIsMounted(true);
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          if (entries.some(entry => entry.isIntersecting)) {
+            setIsMounted(true);
+            observer.disconnect();
+          }
+        }, { rootMargin });
+
+        observer.observe(node);
+        return () => observer.disconnect();
+      }, [isMounted, rootMargin]);
+
+      return (
+        <div ref={holderRef} style={isMounted ? undefined : { minHeight }}>
+          {isMounted ? children : null}
+        </div>
+      );
+    }
+
     /* â”€â”€ Nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     function Nav({ accent }) {
       const [scrolled, setScrolled] = useState(false);
@@ -685,7 +708,7 @@
                   overflow: 'hidden',
                   zIndex: 1,
                 }}>
-                  <img src="/assets/hero.png" alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '0px -15px' }} />
+                  <img src="/assets/hero.png" alt="Profile" loading="lazy" decoding="async" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '0px -15px' }} />
                 </div>
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
@@ -711,6 +734,95 @@
                 With experience across hospitality, F&B, events, and travel, I've helped brands cut through the noise and build marketing systems that generate real, measurable revenue.
               </p>
             </div>
+          </div>
+        </section>
+      );
+    }
+
+    function ResultsStrip() {
+      const stats = [
+        { value: '+60', label: 'CLIENTS ACTIFS', valueSize: 'clamp(28px,7vw,62px)' },
+        { value: '+120', label: 'TUNNELS LANCES', valueSize: 'clamp(28px,7vw,62px)' },
+        {
+          label: 'CA GENERE POUR NOS CLIENTS',
+          parts: [
+            { text: '5,4', size: 'clamp(28px,7vw,62px)' },
+            { text: 'M', size: 'clamp(20px,4.2vw,34px)' },
+            { text: 'MAD', size: 'clamp(14px,2.4vw,24px)' },
+          ],
+        },
+      ];
+
+      return (
+        <section style={{
+          background: '#06070d',
+          borderTop: '1px solid rgba(225,29,72,0.2)',
+          borderBottom: '1px solid rgba(225,29,72,0.2)',
+          padding: '0 clamp(20px,5vw,70px)',
+        }}>
+          <div style={{
+            maxWidth: 1180,
+            margin: '0 auto',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+          }}>
+            {stats.map((item, index) => (
+              <div key={item.label} style={{
+                minHeight: 140,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '26px 12px',
+                borderLeft: index === 0 ? 'none' : '1px solid rgba(225,29,72,0.22)',
+              }}>
+                <div style={{
+                  fontFamily: 'Syne,sans-serif',
+                  fontSize: item.valueSize || 'inherit',
+                  fontWeight: 800,
+                  letterSpacing: '-0.04em',
+                  lineHeight: 0.95,
+                  color: '#fff',
+                  width: '100%',
+                  textAlign: 'center',
+                  whiteSpace: 'nowrap',
+                  marginBottom: 10,
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  justifyContent: 'center',
+                  gap: 8,
+                }}>
+                  {item.parts ? (
+                    item.parts.map((part, partIndex) => (
+                      <span
+                        key={`${item.label}-${partIndex}`}
+                        style={{
+                          display: 'block',
+                          fontSize: part.size,
+                          lineHeight: 1,
+                          letterSpacing: '-0.02em',
+                        }}
+                      >
+                        {part.text}
+                      </span>
+                    ))
+                  ) : (
+                    <span>{item.value}</span>
+                  )}
+                </div>
+                <div style={{
+                  fontFamily: 'Plus Jakarta Sans,sans-serif',
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: '0.14em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.62)',
+                  textAlign: 'center',
+                }}>
+                  {item.label}
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       );
@@ -744,23 +856,26 @@
       ];
       const marqueeLogos = [...logos, ...logos];
       return (
-        <section className="border-t border-white/5 bg-[#0f0f0f] px-6 py-16 md:px-12 lg:px-24">
-          <div className="mx-auto max-w-[1100px]">
-            <div className="mb-8 text-center">
-              <div className="mb-2 font-['Syne'] text-[clamp(30px,6vw,64px)] font-extrabold leading-[0.95] tracking-[-0.04em] text-white">+120 Projects</div>
-              <div className="font-['Plus_Jakarta_Sans'] text-sm text-white/60">Some Brands We Worked With</div>
+        <section style={{ borderTop: '1px solid rgba(255,255,255,0.05)', background: '#0f0f0f', padding: '72px clamp(24px,8vw,120px)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <div style={{ marginBottom: 32, textAlign: 'center' }}>
+              <div style={{ marginBottom: 8, fontFamily: 'Syne,sans-serif', fontSize: 'clamp(30px,6vw,64px)', fontWeight: 800, lineHeight: 0.95, letterSpacing: '-0.04em', color: '#fff' }}>+120 Projects</div>
+              <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>Some Brands We Worked With</div>
             </div>
-            <div className="relative overflow-hidden">
-              <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#0f0f0f] to-transparent" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#0f0f0f] to-transparent" />
-              <div className="brands-marquee-track flex w-max items-center gap-14 py-4 md:gap-20">
+            <div style={{ position: 'relative', overflow: 'hidden' }}>
+              <div style={{ pointerEvents: 'none', position: 'absolute', top: 0, bottom: 0, left: 0, zIndex: 10, width: 80, background: 'linear-gradient(to right,#0f0f0f,transparent)' }} />
+              <div style={{ pointerEvents: 'none', position: 'absolute', top: 0, bottom: 0, right: 0, zIndex: 10, width: 80, background: 'linear-gradient(to left,#0f0f0f,transparent)' }} />
+              <div className="brands-marquee-track" style={{ display: 'flex', width: 'max-content', alignItems: 'center', gap: 56, padding: '16px 0' }}>
                 {marqueeLogos.map((logo, index) => (
                   <img
-                    key={`${logo.name}-${index}`}
+                    key={`brand-logo-${index}`}
                     src={logo.src}
-                    alt={`${logo.name} logo`}
-                    className="h-12 w-auto shrink-0 object-contain opacity-80 transition-opacity duration-300 hover:opacity-100 md:h-14 grayscale"
+                    alt="Brand logo"
                     loading="lazy"
+                    decoding="async"
+                    style={{ height: 48, width: 'auto', flexShrink: 0, objectFit: 'contain', opacity: 0.8, filter: 'grayscale(100%)', transition: 'opacity 0.3s ease' }}
+                    onMouseEnter={e => { e.currentTarget.style.opacity = '1'; }}
+                    onMouseLeave={e => { e.currentTarget.style.opacity = '0.8'; }}
                   />
                 ))}
               </div>
@@ -1033,13 +1148,20 @@
                 aspectRatio: '1', borderRadius: 8,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 border: '1px solid rgba(255,255,255,0.06)',
-                backgroundImage: hasImage
-                  ? `url(${images[i]}), linear-gradient(135deg, ${start}, ${end})`
-                  : `linear-gradient(135deg, ${start}, ${end})`,
-                backgroundSize: hasImage ? 'cover, cover' : 'cover',
-                backgroundPosition: hasImage ? 'center, center' : 'center',
-                backgroundRepeat: 'no-repeat',
+                background: `linear-gradient(135deg, ${start}, ${end})`,
+                position: 'relative',
+                overflow: 'hidden',
               }}>
+                {hasImage && (
+                  <img
+                    src={images[i]}
+                    alt={`Instagram post ${i + 1}`}
+                    loading="lazy"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                )}
                 {!hasImage && (
                   <span style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 10, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.08em' }}>post {i + 1}</span>
                 )}
@@ -1153,11 +1275,28 @@
 
     function PhoneReel({ color = '#1a1a2e', color2 = '#533483', label, h = 200, video = '', fallbackVideo = '', poster = '' }) {
       const [currentVideo, setCurrentVideo] = useState(video || '');
-      const hasVideo = Boolean(currentVideo);
+      const reelRef = useRef(null);
+      const [isInView, setIsInView] = useState(false);
+      const hasVideo = Boolean(currentVideo) && isInView;
 
       useEffect(() => {
         setCurrentVideo(video || '');
       }, [video]);
+
+      useEffect(() => {
+        const node = reelRef.current;
+        if (!node || !window.IntersectionObserver) {
+          setIsInView(true);
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => setIsInView(entry.isIntersecting));
+        }, { rootMargin: '200px 0px', threshold: 0.15 });
+
+        observer.observe(node);
+        return () => observer.disconnect();
+      }, []);
 
       function handleVideoError() {
         if (fallbackVideo && currentVideo !== fallbackVideo) {
@@ -1168,7 +1307,7 @@
       }
 
       return (
-        <div style={{
+        <div ref={reelRef} style={{
           width: 90, height: h,
           border: '2.5px solid rgba(255,255,255,0.18)',
           borderRadius: 20, overflow: 'hidden',
@@ -1193,7 +1332,7 @@
                 muted
                 loop
                 playsInline
-                preload="metadata"
+                preload="none"
                 onError={handleVideoError}
                 style={{
                   position: 'absolute',
@@ -1348,6 +1487,8 @@
                   onLoad={calculateScrollDistance}
                   onError={() => setImgError(true)}
                   alt={`${brand} landing page screenshot`}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     width: '100%',
                     display: 'block',
@@ -2090,15 +2231,16 @@
           <Nav accent={accent} />
           <Hero accent={accent} headline={headline} />
           <About accent={accent} />
+          <ResultsStrip />
           <Brands />
           <ProjectMogador accent={accent} />
-          <ProjectMitsuki accent={accent} />
-          <ProjectNeroli accent={accent} />
-          <ProjectAsma accent={accent} />
-          <ProjectWashZeroeau accent={accent} />
-          <ProjectEuroparebrise accent={accent} />
-          <ProjectSocialAds accent={accent} />
-          <ReviewsShowcaseSection />
+          <LazyMount minHeight={850}><ProjectMitsuki accent={accent} /></LazyMount>
+          <LazyMount minHeight={850}><ProjectNeroli accent={accent} /></LazyMount>
+          <LazyMount minHeight={850}><ProjectAsma accent={accent} /></LazyMount>
+          <LazyMount minHeight={850}><ProjectWashZeroeau accent={accent} /></LazyMount>
+          <LazyMount minHeight={850}><ProjectEuroparebrise accent={accent} /></LazyMount>
+          <LazyMount minHeight={950}><ProjectSocialAds accent={accent} /></LazyMount>
+          <LazyMount minHeight={620}><ReviewsShowcaseSection /></LazyMount>
           <Process accent={accent} />
           <CTA accent={accent} />
           <Footer accent={accent} />
