@@ -1,0 +1,2089 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Portfolio - Digital Marketer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+    integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+    integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+    integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+    crossorigin="anonymous"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #080808;
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ::selection {
+      background: rgba(225, 29, 72, 0.35);
+    }
+
+    /* Backlight glow animations */
+    @keyframes glow-breathe {
+
+      0%,
+      100% {
+        opacity: 0.7;
+        transform: translateX(-50%) scale(1)
+      }
+
+      50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.06)
+      }
+    }
+
+    @keyframes glow-breathe2 {
+
+      0%,
+      100% {
+        opacity: 0.4;
+        transform: translateX(-50%) scale(1)
+      }
+
+      50% {
+        opacity: 0.65;
+        transform: translateX(-50%) scale(1.1)
+      }
+    }
+
+    @keyframes lines-drift {
+      0% {
+        transform: translateY(0)
+      }
+
+      100% {
+        transform: translateY(-40px)
+      }
+    }
+
+    @keyframes rim-pulse {
+
+      0%,
+      100% {
+        opacity: 0.55
+      }
+
+      50% {
+        opacity: 0.8
+      }
+    }
+
+    @keyframes lp-callout-float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(4px);
+      }
+    }
+
+    @keyframes lp-callout-glow {
+
+      0%,
+      100% {
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.36), 0 0 0 rgba(var(--lp-brand-rgb), 0);
+      }
+
+      50% {
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.42), 0 0 18px rgba(var(--lp-brand-rgb), 0.38);
+      }
+    }
+
+    @keyframes lp-arrow-nudge {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(-4px, 3px);
+      }
+    }
+
+    @keyframes lp-arrow-glow {
+
+      0%,
+      100% {
+        filter: drop-shadow(0 0 6px rgba(var(--lp-brand-rgb), 0.3));
+      }
+
+      50% {
+        filter: drop-shadow(0 0 14px rgba(var(--lp-brand-rgb), 0.62));
+      }
+    }
+
+    @keyframes brands-marquee {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .brands-marquee-track {
+      animation: brands-marquee 26s linear infinite;
+    }
+
+    .brands-marquee-track:hover {
+      animation-play-state: paused;
+    }
+
+    .lp-scroll-callout {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(var(--lp-brand-rgb), 0.45);
+      background: linear-gradient(135deg, rgba(3, 15, 28, 0.88), rgba(var(--lp-brand-rgb), 0.24));
+      backdrop-filter: blur(8px);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.36);
+      pointer-events: none;
+      z-index: 10;
+      animation: lp-callout-float 1.8s ease-in-out infinite, lp-callout-glow 2s ease-in-out infinite;
+    }
+
+    .lp-scroll-callout-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 11px;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--lp-brand), #ffffff);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08), 0 0 12px rgba(var(--lp-brand-rgb), 0.45);
+      flex: 0 0 auto;
+    }
+
+    .lp-scroll-callout-label {
+      color: rgba(240, 249, 255, 0.98);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .lp-scroll-callout-arrow {
+      position: absolute;
+      right: -38px;
+      bottom: 32px;
+      width: 72px;
+      height: 72px;
+      color: var(--lp-brand);
+      filter: drop-shadow(0 0 6px rgba(var(--lp-brand-rgb), 0.3));
+      pointer-events: none;
+      z-index: 9;
+      animation: lp-arrow-nudge 1.3s ease-in-out infinite, lp-arrow-glow 1.6s ease-in-out infinite;
+    }
+
+    @media (max-width: 820px) {
+      .lp-scroll-callout {
+        right: 8px;
+        bottom: 8px;
+        padding: 5px 9px;
+        gap: 7px;
+      }
+
+      .lp-scroll-callout-label {
+        font-size: 9px;
+        letter-spacing: 0.07em;
+      }
+
+      .lp-scroll-callout-dot {
+        width: 14px;
+        height: 14px;
+        font-size: 10px;
+      }
+
+      .lp-scroll-callout-arrow {
+        right: -26px;
+        bottom: 30px;
+        width: 56px;
+        height: 56px;
+      }
+    }
+
+    /* Tweaks panel */
+    #tweaks-panel {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      background: rgba(11, 17, 32, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 20px 24px;
+      width: 240px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+      display: none;
+    }
+
+    #tweaks-panel h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+
+    #tweaks-panel label {
+      display: block;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+      margin-top: 12px;
+    }
+
+    #tweaks-panel input[type=color] {
+      width: 100%;
+      height: 32px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: none;
+    }
+
+    #tweaks-panel select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    #tweaks-panel input[type=text] {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      outline: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+  <div id="tweaks-panel">
+    <h4>Tweaks</h4>
+    <label>Accent Color</label>
+    <input type="color" id="tw-color" value="#E11D48" />
+    <label>Hero Headline</label>
+    <input type="text" id="tw-headline" value="YOUR NAME" placeholder="Your name or tagline" />
+    <label>Section Style</label>
+    <select id="tw-style">
+      <option value="dark">All Dark</option>
+      <option value="mixed" selected>Dark + Light Alternating</option>
+    </select>
+  </div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    /* â”€â”€ Design tokens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    const T = {
+      dark: '#080808',
+      dark2: '#0B1120',
+      dark3: '#111827',
+      card: '#111520',
+      brand: '#E11D48',
+      accent: '#a3e635',
+      success: '#22c55e',
+      light: '#fafafa',
+      white: '#ffffff',
+      muted: '#71717a',
+      border: 'rgba(255,255,255,0.08)',
+      borderL: '#e4e4e7',
+    };
+
+    /* â”€â”€ Tweaks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "accentColor": "#E11D48",
+      "heroHeadline": "CLICKBOOST",
+      "sectionStyle": "mixed"
+    }/*EDITMODE-END*/;
+
+    function useTweaks() {
+      const [tw, setTw] = useState(TWEAK_DEFAULTS);
+      useEffect(() => {
+        const saved = localStorage.getItem('portfolio-tweaks');
+        if (saved) try { setTw({ ...TWEAK_DEFAULTS, ...JSON.parse(saved) }); } catch (e) { }
+        const listener = (e) => {
+          if (e.data?.type === '__activate_edit_mode') {
+            document.getElementById('tweaks-panel').style.display = 'block';
+            // Wire up live controls
+            const cp = document.getElementById('tw-color');
+            const hl = document.getElementById('tw-headline');
+            const st = document.getElementById('tw-style');
+            if (cp) { cp.value = tw.accentColor; cp.oninput = (ev) => updateTw({ accentColor: ev.target.value }); }
+            if (hl) { hl.value = tw.heroHeadline; hl.oninput = (ev) => updateTw({ heroHeadline: ev.target.value }); }
+            if (st) { st.value = tw.sectionStyle; st.onchange = (ev) => updateTw({ sectionStyle: ev.target.value }); }
+          }
+          if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaks-panel').style.display = 'none';
+        };
+        window.addEventListener('message', listener);
+        window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+        return () => window.removeEventListener('message', listener);
+      }, []);
+      function updateTw(patch) {
+        setTw(prev => {
+          const next = { ...prev, ...patch };
+          localStorage.setItem('portfolio-tweaks', JSON.stringify(next));
+          window.parent.postMessage({ type: '__edit_mode_set_keys', edits: patch }, '*');
+          return next;
+        });
+      }
+      return tw;
+    }
+
+    /* â”€â”€ Nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    function Nav({ accent }) {
+      const [scrolled, setScrolled] = useState(false);
+      useEffect(() => {
+        const h = () => setScrolled(window.scrollY > 60);
+        window.addEventListener('scroll', h);
+        return () => window.removeEventListener('scroll', h);
+      }, []);
+      return (
+        <nav style={{
+          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+          padding: '0 clamp(24px,5vw,80px)', height: 68,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          background: scrolled ? 'rgba(8,8,8,0.88)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(16px)' : 'none',
+          borderBottom: scrolled ? `1px solid ${T.border}` : 'none',
+          transition: 'all 0.35s ease',
+        }}>
+          <div style={{ fontFamily: 'Syne,sans-serif', fontSize: 22, fontWeight: 800, color: '#fff', letterSpacing: '-0.04em' }}>
+            CB<span style={{ color: accent }}>.</span>
+          </div>
+          <div style={{ display: 'flex', gap: 32, alignItems: 'center' }}>
+            {[['Work', '#work'], ['About', '#about'], ['Process', '#process']].map(([l, h]) => (
+              <a key={l} href={h} style={{
+                fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 14, fontWeight: 500,
+                color: 'rgba(255,255,255,0.55)', transition: 'color 0.2s',
+              }}
+                onMouseEnter={e => e.target.style.color = '#fff'}
+                onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.55)'}
+              >{l}</a>
+            ))}
+            <a href="#contact" style={{
+              fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 14, fontWeight: 700, color: '#fff',
+              background: accent, padding: '10px 24px', borderRadius: 8,
+              boxShadow: `0 4px 20px ${accent}55`, transition: 'all 0.2s',
+            }}
+              onMouseEnter={e => { e.target.style.transform = 'translateY(-1px)'; e.target.style.boxShadow = `0 8px 28px ${accent}66`; }}
+              onMouseLeave={e => { e.target.style.transform = ''; e.target.style.boxShadow = `0 4px 20px ${accent}55`; }}
+            >Let's Talk</a>
+          </div>
+        </nav>
+      );
+    }
+
+    /* â”€â”€ Hero â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    function Hero({ accent, headline }) {
+      return (
+        <section style={{ minHeight: '720px', background: T.dark, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {/* Subtle noise/grid */}
+          <div style={{
+            position: 'absolute', inset: 0, opacity: 0.025,
+            backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)',
+            backgroundSize: '56px 56px', pointerEvents: 'none'
+          }} />
+          {/* Radial vignette */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'radial-gradient(ellipse 65% 75% at 50% 55%, transparent 20%, rgba(0,0,0,0.8) 100%)',
+            pointerEvents: 'none'
+          }} />
+          {/* Brand glow bottom center */}
+          <div style={{
+            position: 'absolute', bottom: '-5%', left: '50%', transform: 'translateX(-50%)',
+            width: 500, height: 400,
+            background: `radial-gradient(circle, ${accent}22 0%, transparent 70%)`,
+            pointerEvents: 'none'
+          }} />
+
+          {/* â”€â”€ Cinematic Backlight behind portrait â”€â”€ */}
+          {/* Core bright glow - tight, intense */}
+          <div style={{
+            position: 'absolute', bottom: '18%', left: '50%',
+            width: 320, height: 420,
+            background: `radial-gradient(ellipse 55% 65% at 50% 60%, ${accent}cc 0%, ${accent}55 30%, transparent 70%)`,
+            animation: 'glow-breathe 4s ease-in-out infinite',
+            pointerEvents: 'none', zIndex: 1,
+            filter: 'blur(2px)',
+          }} />
+          {/* Wide ambient halo */}
+          <div style={{
+            position: 'absolute', bottom: '10%', left: '50%',
+            width: 700, height: 600,
+            background: `radial-gradient(ellipse 60% 55% at 50% 55%, ${accent}33 0%, ${accent}11 45%, transparent 70%)`,
+            animation: 'glow-breathe2 5.5s ease-in-out infinite',
+            pointerEvents: 'none', zIndex: 1,
+            filter: 'blur(8px)',
+          }} />
+          {/* Abstract background lines (like chart/data lines) inside glow */}
+          <div style={{
+            position: 'absolute', bottom: '16%', left: '50%', transform: 'translateX(-50%)',
+            width: 260, height: 380,
+            overflow: 'hidden',
+            pointerEvents: 'none', zIndex: 1,
+            opacity: 0.18,
+          }}>
+            <svg width="260" height="380" viewBox="0 0 260 380" style={{ animation: 'lines-drift 8s linear infinite' }}>
+              {/* Vertical data lines */}
+              {[20, 44, 68, 92, 116, 140, 164, 188, 212, 236].map((x, i) => (
+                <line key={x} x1={x} y1="0" x2={x} y2="420" stroke={accent} strokeWidth="0.8" strokeOpacity={i % 3 === 1 ? 0.9 : 0.45} />
+              ))}
+              {/* Horizontal scan lines */}
+              {[40, 80, 120, 160, 200, 240, 280, 320, 360, 400, 440].map((y, i) => (
+                <line key={y} x1="0" y1={y} x2="260" y2={y} stroke={accent} strokeWidth="0.5" strokeOpacity={0.3} />
+              ))}
+              {/* Abstract upward chart line */}
+              <polyline points="10,370 40,320 70,280 90,260 120,200 145,170 170,130 195,90 220,60 250,20"
+                fill="none" stroke={accent} strokeWidth="1.8" strokeOpacity="0.7" strokeLinecap="round" strokeLinejoin="round" />
+              <polyline points="10,390 50,350 80,310 110,270 135,230 160,200 185,160 210,120 240,80"
+                fill="none" stroke={accent} strokeWidth="1.2" strokeOpacity="0.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          {/* Rim light - left edge of portrait */}
+          <div style={{
+            position: 'absolute', bottom: 0, left: '50%',
+            transform: 'translateX(calc(-50% - 70px))',
+            width: 6, height: '45%',
+            background: `linear-gradient(180deg, transparent 0%, ${accent}99 30%, ${accent}cc 60%, transparent 100%)`,
+            filter: 'blur(6px)',
+            animation: 'rim-pulse 3.5s ease-in-out infinite',
+            pointerEvents: 'none', zIndex: 3,
+            borderRadius: 4,
+          }} />
+          {/* Rim light - right edge of portrait */}
+          <div style={{
+            position: 'absolute', bottom: 0, left: '50%',
+            transform: 'translateX(calc(-50% + 70px))',
+            width: 6, height: '45%',
+            background: `linear-gradient(180deg, transparent 0%, ${accent}99 30%, ${accent}cc 60%, transparent 100%)`,
+            filter: 'blur(6px)',
+            animation: 'rim-pulse 3.5s ease-in-out infinite 0.5s',
+            pointerEvents: 'none', zIndex: 3,
+            borderRadius: 4,
+          }} />
+          {/* Ground light spill */}
+          <div style={{
+            position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)',
+            width: 400, height: 60,
+            background: `radial-gradient(ellipse 70% 100% at 50% 100%, ${accent}44 0%, transparent 70%)`,
+            pointerEvents: 'none', zIndex: 1,
+            filter: 'blur(4px)',
+          }} />
+
+          {/* â‘  Eyebrow */}
+          <div style={{ position: 'absolute', top: 90, left: 0, right: 0, textAlign: 'center', zIndex: 3 }}>
+            <span style={{
+              fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600,
+              letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.32)',
+            }}>Digital Marketer - Funnel Strategist - Landing Page Specialist</span>
+          </div>
+
+          {/* â‘¡ MASSIVE headline behind portrait */}
+          <div style={{
+            position: 'absolute', top: '50%', left: 0, right: 0,
+            transform: 'translateY(-52%)',
+            fontFamily: 'Syne,sans-serif', fontWeight: 800,
+            fontSize: 'clamp(72px,16vw,220px)',
+            color: 'rgba(255,255,255,0.90)',
+            textAlign: 'center', lineHeight: 0.88,
+            letterSpacing: '-0.05em',
+            userSelect: 'none', zIndex: 1,
+            textWrap: 'nowrap',
+          }}>{headline}</div>
+
+          {/* â‘¢ Portrait placeholder */}
+          {/*
+      <div style={{
+        position:'absolute',bottom:0,left:'50%',transform:'translateX(-50%)',
+        width:'clamp(180px,18vw,280px)',
+        height:'clamp(280px,50vh,480px)',
+        zIndex:2,
+        background:'linear-gradient(180deg,#3c3840 0%,#1c1820 55%,transparent 100%)',
+        borderRadius:'50% 50% 0 0 / 30% 30% 0 0',
+        display:'flex',alignItems:'flex-start',justifyContent:'center',
+        paddingTop:20,
+      }}>
+        <span style={{fontFamily:'Plus Jakarta Sans,sans-serif',fontSize:11,letterSpacing:'0.12em',textTransform:'uppercase',color:'rgba(255,255,255,0.18)'}}>your portrait</span>
+      </div>
+      */}
+
+          <div style={{
+            position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)',
+            width: 'clamp(200px, 56vw, 515px)',
+            height: 'clamp(280px, 142vh, 783px)',
+            zIndex: 2,
+
+          }}>
+            <div style={{
+              position: 'absolute', top: 144, left: '-50%',
+              transform: 'translateX(71%)',
+              height: "71%", width: "82%",
+              zIndex: -1,
+              background: '#E11D48',
+              filter: 'blur(199px)',
+              borderRadius: '50%',
+              cornerBottomRightShape: 'notch',
+              opacity: 0.8,
+            }}> </div>
+            <img src="/assets/hero.png" style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: '0px 115px',
+            }} alt="" />
+          </div>
+
+          {/* â‘£ Supporting copy + CTA - centered below */}
+          <div style={{
+            position: 'absolute', bottom: 'clamp(80px,10vh,130px)', left: 0, right: 0,
+            textAlign: 'center', zIndex: 3,
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20,
+          }}>
+            <p style={{
+              fontFamily: 'Plus Jakarta Sans,sans-serif',
+              fontSize: 'clamp(14px,1.4vw,17px)', lineHeight: 1.7,
+              color: 'rgba(255,255,255,0.55)', maxWidth: 480, margin: 0,
+            }}>I build high-converting funnels, landing pages, and Meta Ad campaigns that turn attention into qualified leads and real revenue.</p>
+            <a href="#work" style={{
+              fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 15, fontWeight: 700, color: '#fff',
+              background: accent, padding: '15px 40px', borderRadius: 9,
+              boxShadow: `0 8px 32px ${accent}55`, letterSpacing: '0.02em',
+              transition: 'all 0.25s', display: 'inline-block',
+            }}
+              onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = `0 14px 40px ${accent}66`; }}
+              onMouseLeave={e => { e.target.style.transform = ''; e.target.style.boxShadow = `0 8px 32px ${accent}55`; }}
+            >View Projects</a>
+          </div>
+
+          {/* â‘¤ Floating left card */}
+          <FloatCard top="34%" left="36%" accent={accent}>
+            <div style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: 26, fontWeight: 600, color: accent, lineHeight: 1 }}>3.8x</div>
+            <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 10, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.12em', marginTop: 5 }}>Avg. ROAS</div>
+          </FloatCard>
+
+          {/* â‘¤ Floating right card */}
+          <FloatCard top="56%" right="32%" accent={accent}>
+            <div style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: 26, fontWeight: 600, color: '#a3e635', lineHeight: 1 }}>+47%</div>
+            <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 10, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.12em', marginTop: 5 }}>Conv. Rate</div>
+          </FloatCard>
+
+          {/* â‘¥ Bottom badges */}
+          <div style={{ position: 'absolute', bottom: 24, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 12, zIndex: 3 }}>
+            {['20+ Projects Delivered', '3x Average ROAS', 'Meta & Google Certified'].map(b => (
+              <div key={b} style={{
+                fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 500,
+                color: 'rgba(255,255,255,0.28)', padding: '5px 16px',
+                border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20,
+              }}>{b}</div>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    function FloatCard({ top, left, right, bottom, children, accent }) {
+      return (
+        <div style={{
+          position: 'absolute', top, left, right, bottom, zIndex: 3,
+          background: 'rgba(255,255,255,0.03)',
+          backdropFilter: 'blur(16px)',
+          border: '1px solid rgba(255,255,255,0.07)',
+          borderRadius: 12, padding: '14px 20px',
+          boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
+        }}>{children}</div>
+      );
+    }
+
+    /* â”€â”€ About â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    function About({ accent }) {
+      return (
+        <section id="about" style={{ background: T.light, padding: '100px clamp(24px,8vw,120px)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
+            {/* Left: avatar + tags */}
+            <div>
+              <div style={{
+                position: 'relative',
+                width: 240, height: 240,
+                marginBottom: 28,
+              }}>
+                {/* Brand color lighting glow behind */}
+                <div style={{
+                  position: 'absolute', inset: -15,
+                  background: `radial-gradient(circle, ${accent}88 0%, transparent 70%)`,
+                  filter: 'blur(15px)',
+                  borderRadius: '50%',
+                  zIndex: 0,
+                  opacity: 0.8,
+                }} />
+                {/* Black background and image container */}
+                <div style={{
+                  position: 'relative',
+                  width: '100%', height: '100%', borderRadius: '50%',
+                  background: '#080808',
+                  border: `2px solid rgba(255,255,255,0.05)`,
+                  boxShadow: `inset 0 -20px 40px ${accent}44, 0 8px 32px rgba(0,0,0,0.4)`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  overflow: 'hidden',
+                  zIndex: 1,
+                }}>
+                  <img src="/assets/hero.png" alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: '0px -15px' }} />
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {['Meta Ads', 'Funnels', 'Landing Pages', 'CRO', 'Google Ads', 'Email Marketing'].map(t => (
+                  <span key={t} style={{
+                    fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 12, fontWeight: 600,
+                    color: '#52525b', background: '#f4f4f5',
+                    padding: '6px 14px', borderRadius: 20, border: '1px solid #e4e4e7',
+                  }}>{t}</span>
+                ))}
+              </div>
+            </div>
+            {/* Right: copy */}
+            <div>
+              <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#E11D48', marginBottom: 14 }}>About</p>
+              <h2 style={{ fontFamily: 'Syne,sans-serif', fontSize: 'clamp(28px,3vw,40px)', fontWeight: 800, color: '#0B1120', lineHeight: 1.15, letterSpacing: '-0.03em', marginBottom: 20 }}>
+                Performance-first.<br />Results-obsessed.
+              </h2>
+              <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 16, lineHeight: 1.75, color: '#52525b', marginBottom: 16 }}>
+                I'm a digital marketer specialized in building full-funnel systems that convert - from scroll-stopping Meta Ads to high-converting landing pages and automated follow-up sequences.
+              </p>
+              <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 16, lineHeight: 1.75, color: '#52525b' }}>
+                With experience across hospitality, F&B, events, and travel, I've helped brands cut through the noise and build marketing systems that generate real, measurable revenue.
+              </p>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* â”€â”€ Brands â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    function Brands() {
+      const logos = [
+        { name: 'Asma Travel', src: '/assets/asma/logo.jpg' },
+        { name: 'Creche Canadienne', src: '/assets/creche-canadienne/logo.jpg' },
+        { name: 'Mashawi', src: '/assets/mashawi/logo.jpg' },
+        { name: 'Grand Mogador Aqua Resort', src: '/assets/mogador/aqua-resort/logo.jpg' },
+        { name: 'Pur Eclat', src: '/assets/pur-eclat/logo.jpg' },
+      ];
+      const marqueeLogos = [...logos, ...logos];
+      return (
+        <section className="border-t border-white/5 bg-[#0f0f0f] px-6 py-16 md:px-12 lg:px-24">
+          <div className="mx-auto max-w-[1100px]">
+            <div className="mb-8 text-center">
+              <div className="mb-2 font-['Syne'] text-[clamp(30px,6vw,64px)] font-extrabold leading-[0.95] tracking-[-0.04em] text-white">+120 Projects</div>
+              <div className="font-['Plus_Jakarta_Sans'] text-sm text-white/60">Some Brands We Worked With</div>
+            </div>
+            <div className="relative overflow-hidden">
+              <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#0f0f0f] to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#0f0f0f] to-transparent" />
+              <div className="brands-marquee-track flex w-max items-center gap-14 py-4 md:gap-20">
+                {marqueeLogos.map((logo, index) => (
+                  <img
+                    key={`${logo.name}-${index}`}
+                    src={logo.src}
+                    alt={`${logo.name} logo`}
+                    className="h-12 w-auto shrink-0 object-contain opacity-80 transition-opacity duration-300 hover:opacity-100 md:h-14"
+                    loading="lazy"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* â”€â”€ Section header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    function SectionEyebrow({ label, dark = true }) {
+      return (
+        <p style={{
+          fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 700,
+          letterSpacing: '0.2em', textTransform: 'uppercase',
+          color: dark ? 'rgba(255,255,255,0.35)' : '#E11D48', marginBottom: 10,
+        }}>{label}</p>
+      );
+    }
+
+    /* â”€â”€ Instagram Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    const MOGADOR_BRANCHES = [
+      {
+        id: 'agdal',
+        name: 'Grand Mogador Agdal',
+        logo: 'GRAND MOGADOR AGDAL',
+        tags: ['Hotel & Restaurant', 'Meta Ads', 'Content Creation', 'Landing Page'],
+        objective: 'Build strong local awareness for Grand Mogador Agdal and increase reservation demand through social media and paid campaigns.',
+        workDelivered: 'Monthly Instagram content production, Reels strategy, Meta Ads campaign management, and conversion-focused landing page updates.',
+        result: '3.8x ROAS on paid campaigns. Organic reach grew 140%. Landing page conversion reached 12%.',
+        instagramPosts: [
+          'https://instagram.fcmn1-2.fna.fbcdn.net/v/t51.71878-15/670390981_1353005926636238_1815253190718294471_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzg3NDMzMTM5MTM0OTc4OTkwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=bQiHJFYHWZIQ7kNvwG3o0ov&_nc_oc=AdpdcXRNYNbce9_CTaeIiDPELh7RIWoKxRpCmtwyk9_WesMm3BENH_t72sUO8VMl7JI&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-2.fna&_nc_gid=1_CvVjek_2jCX_UaGW1o7g&_nc_ss=7a22e&oh=00_Af2EUcJtAJ5s1PBAYUen2O7aD0KfN_N5972Tzmv0fuKhLg&oe=69F04681',
+          'https://instagram.fcmn1-1.fna.fbcdn.net/v/t51.82787-15/656294838_17929207146233212_8917560930109068674_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ig_cache_key=Mzg2MDU1Njg5MzIyODE1NzU4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4OTYwLnNkci5DMyJ9&_nc_ohc=6rar2t7Brh4Q7kNvwHinozi&_nc_oc=Adp_zudHjW2pepwTR7K4wGDbU2VlU9Kwekvc6GY6PiWfKYWxMUYnuOUnO3JX-o5eCGk&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-1.fna&_nc_gid=1_CvVjek_2jCX_UaGW1o7g&_nc_ss=7a22e&oh=00_Af03HQ4VggDwfcMwgA7lHvyDiNZnyUgSz_Ln-TG6Qqc9Mw&oe=69F0432C',
+          'https://instagram.fcmn1-2.fna.fbcdn.net/v/t51.75761-15/491417547_17890349382233212_1679801691305057481_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=MzYxODUxMjcyNTMxNTUwMTI5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEzMzJ4MTY2Ni5zZHIuQzMifQ%3D%3D&_nc_ohc=kB4m0GJg_1YQ7kNvwHFkq3x&_nc_oc=AdqoHDD5uX1LvkZOcNt16XhrRIvQePI3CvGz9jo30jIteHsFDoDpjnt0yx4kbRX4UfA&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-2.fna&_nc_gid=jGy_-_qhlIjuaxt8RjLMCQ&_nc_ss=7a22e&oh=00_Af1nwTepBxuRsVa012bauGbfccyOKiNsLe-K_6xcsbrFCA&oe=69EFFF0F',
+        ],
+        reels: [
+          { label: 'Reel 01', video: '/assets/mogador/agdal/reel-1.mp4', fallbackVideo: '/assets/mogador/agdal/reel-01.mp4', h: 190, color: '#2d1200', color2: '#8B4513' },
+          { label: 'Reel 02', video: '/assets/mogador/agdal/reel-2.mp4', fallbackVideo: '/assets/mogador/agdal/reel-02.mp4', h: 210, color: '#1a0800', color2: '#5a2a00' },
+          { label: 'Reel 03', video: '/assets/mogador/agdal/reel-3.mp4', fallbackVideo: '/assets/mogador/agdal/reel-03.mp4', h: 195, color: '#3d1a00', color2: '#c0651a' },
+        ],
+        landingPage: {
+          image: '/assets/mogador/agdal/1.png',
+          domain: 'agdal.mogador.clickboost.ma',
+          brand: 'GRAND MOGADOR AGDAL',
+        },
+        metaAdsImage: '/assets/mogador/agdal/meta-ads.jpeg',
+        metaAdsImageSecondary: '/assets/mogador/agdal/meta-ads-2.jpeg',
+        metrics: { roas: '3.8x', ctr: '1.4%', cpl: '-31%', reach: '94k', cvr: '12%' },
+      },
+      {
+        id: 'menara',
+        name: 'Grand Mogador Menara',
+        logo: 'GRAND MOGADOR MENARA',
+        tags: ['Hotel & Restaurant', 'Meta Ads', 'Content Creation', 'Landing Page'],
+        objective: 'Increase direct bookings for Grand Mogador Menara by targeting high-intent local and travel audiences across Meta platforms.',
+        workDelivered: 'Creative direction for social content, Reels production, Meta Ads optimization, and dedicated landing page funnel improvements.',
+        result: '3.5x ROAS with improved ad efficiency. Reservation inquiries increased 34% month-over-month.',
+        instagramPosts: [
+          'https://instagram.fcmn1-4.fna.fbcdn.net/v/t39.30808-6/524296669_746935424705350_7356818413379840098_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&ig_cache_key=MzY4Mzc5MTczMTY2Njc3MjUzOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjExNTJ4MTQ0MC5zZHIuQzMifQ%3D%3D&_nc_ohc=BrFihkhZ3X0Q7kNvwGkHvoX&_nc_oc=Adr_mmgDau7CGE9fCqq77VZee62rNXCYjBk-qHR5MUYc0saBlM1FtzdElJ1v4ftKhOw&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-4.fna&_nc_gid=bzI3p6505bhzWf1245ZtGA&_nc_ss=7a22e&oh=00_Af0O8g3IWu1XNYRcrdW5m8J9JQgjD6vd91U_xk-aPFZ9Nw&oe=69F10E28',
+          'https://instagram.fcmn1-4.fna.fbcdn.net/v/t51.82787-15/670275311_17942434155170407_2199115713408339789_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ig_cache_key=Mzg3NjQ3ODk2NDE2MDAyMjk0NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4OTYwLnNkci5DMyJ9&_nc_ohc=fo8QkjR4ugUQ7kNvwFCcNoW&_nc_oc=AdplnXVZx8lMQJEIPAohXwAbRrd5FIpjX1vwO7c-BQcz3-f2dMUwpFVlHQEL1EMqgMo&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-4.fna&_nc_gid=bzI3p6505bhzWf1245ZtGA&_nc_ss=7a22e&oh=00_Af3JKgw9TnRFZBOtVbHnpOv1a87bCPHo22wq_Gi_a6eT8Q&oe=69F1453C',
+          'https://instagram.fcmn1-2.fna.fbcdn.net/v/t39.30808-6/522679962_747918104607082_951164131285825855_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=MzY5MTc2MzUxMTk0Njc4NjI1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjk2MHg5NjAuc2RyLkMzIn0%3D&_nc_ohc=btKtQiPGN34Q7kNvwHXO9Tq&_nc_oc=AdqTDXUbKLQqXKKOu3PsHCgsA3G2G9ME9gzTqveb_KlVo1-_cV3jNPoQDl3GYndGcHo&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-2.fna&_nc_gid=ctUeGGXNkn50eboRDi_CIA&_nc_ss=7a22e&oh=00_Af1uSx5JoFz_YOyRXSdc9grBI6lp3yXAu9jRa_irweTKmw&oe=69F121E7',
+        ],
+        reels: [
+          { label: 'Reel 01', video: '/assets/mogador/menara/1.mp4', fallbackVideo: '/assets/mogador/menara/01.mp4', h: 190, color: '#3b1b09', color2: '#9c5a1b' },
+          { label: 'Reel 02', video: '/assets/mogador/menara/2.mp4', fallbackVideo: '/assets/mogador/menara/02.mp4', h: 210, color: '#211005', color2: '#6f390f' },
+          { label: 'Reel 03', video: '/assets/mogador/menara/3.mp4', fallbackVideo: '/assets/mogador/menara/03.mp4', h: 195, color: '#4a230b', color2: '#bf7626' },
+        ],
+        landingPage: {
+          image: '/assets/mogador/menara/lp.png',
+          domain: 'menara.mogador.clickboost.ma',
+          brand: 'GRAND MOGADOR MENARA',
+        },
+        metaAdsImage: '/assets/mogador/menara/meta-ads.jpeg',
+        metaAdsImageSecondary: '/assets/mogador/menara/meta-ads-2.jpeg',
+        metrics: { roas: '3.5x', ctr: '1.3%', cpl: '-27%', reach: '81k', cvr: '10.8%' },
+      },
+      {
+        id: 'tanger',
+        name: 'Grand Mogador Tanger',
+        logo: 'GRAND MOGADOR TANGER',
+        tags: ['Hotel & Restaurant', 'Meta Ads', 'Content Creation', 'Landing Page'],
+        objective: 'Drive more qualified reservation traffic for Grand Mogador Tanger through localized campaigns and consistent branded content.',
+        workDelivered: 'Editorial planning, Instagram post + Reel execution, conversion campaign setup, and mobile-first reservation landing page.',
+        result: '3.6x ROAS and +39% increase in direct reservation leads within the campaign cycle.',
+        instagramPosts: [
+          'https://instagram.fcmn1-1.fna.fbcdn.net/v/t51.71878-15/563748527_3362241430593751_6924423592655542663_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzc0MzMwMDA4MTI0MDgwNDI1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=ZMY6BSq8pRcQ7kNvwHfqKrf&_nc_oc=Adqdkp9gIVLUZdcp4MEZt_-BkA4deRUxEjSRs6I1J8VhVaVpFhiEzz1jKdyFEf55fB8&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-1.fna&_nc_gid=zMnHqghodtatZukYzlLq4A&_nc_ss=7a22e&oh=00_Af39JnYklH-FxosvC9FS5evWt7AWfWc19L9urAH517H4Rg&oe=69F13F86',
+          'https://instagram.fcmn1-4.fna.fbcdn.net/v/t51.71878-15/503180854_4266982420197678_769592313327503335_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=MzY0Njc1NDExODkwNzgzNDc1Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=onGwdbt22mIQ7kNvwEfB9Sx&_nc_oc=Adp0MJsBOWP10oapgP7nT1_vGe2hfh87Z50gCSxG8ViQMO4ijG49OO4UaS0hHlcGz3c&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-4.fna&_nc_gid=VKIB5vu4QizSSd8wQbUyeA&_nc_ss=7a22e&oh=00_Af02ru7nLjbNuKiIJldMSWvvIjFtsKnWcWsF5KFMNEPd6A&oe=69F12F67',
+          'https://instagram.fcmn1-2.fna.fbcdn.net/v/t51.75761-15/496827561_18040560260625738_5984791404429280990_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=MzYyODA1OTY1MTUxMDIxNTcyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEzMjh4MTY2MC5zZHIuQzMifQ%3D%3D&_nc_ohc=uhLNqdoUdpYQ7kNvwFOEAAG&_nc_oc=Adr6YCSiQOqGnzMyqW_BhDiK7NhTSvYMKu6Z0yqUvRX9Z1T3llIFgpdqW-7_xhqHasM&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-2.fna&_nc_gid=VKIB5vu4QizSSd8wQbUyeA&_nc_ss=7a22e&oh=00_Af0dkUlfQXHzobUiThz3RHv_yibjNMliHJTNN787ANj7vw&oe=69F12445',
+        ],
+        reels: [
+          { label: 'Reel 01', video: '/assets/mogador/tanger/1.mp4', fallbackVideo: '/assets/mogador/tanger/01.mp4', h: 190, color: '#2f1408', color2: '#8f4a16' },
+          { label: 'Reel 02', video: '/assets/mogador/tanger/2.mp4', fallbackVideo: '/assets/mogador/tanger/02.mp4', h: 210, color: '#1d0d04', color2: '#5f2e0d' },
+          { label: 'Reel 03', video: '/assets/mogador/tanger/3.mp4', fallbackVideo: '/assets/mogador/tanger/03.mp4', h: 195, color: '#3f1d09', color2: '#ad661f' },
+        ],
+        landingPage: {
+          image: '/assets/mogador/tanger/lp.png',
+          domain: 'tanger.mogador.clickboost.ma',
+          brand: 'GRAND MOGADOR TANGER',
+        },
+        metaAdsImage: '/assets/mogador/tanger/meta-ads.jpeg',
+        metaAdsImageSecondary: '/assets/mogador/tanger/meta-ads-2.jpeg',
+        metrics: { roas: '3.6x', ctr: '1.5%', cpl: '-29%', reach: '88k', cvr: '11.4%' },
+      },
+    ];
+
+    const MITSUKI_ASSETS = {
+      landingPage: {
+        image: '/assets/mitsuki/lp.png',
+        domain: 'mitsuki.ma/reserve',
+        brand: 'MITSUKI',
+      },
+      // metaAdsImage: '/assets/mitsuki/meta-ads.jpg',
+      metaAdsImage: '/assets/mitsuki/meta-ads.jpeg',
+      metaAdsImageSecondary: '/assets/mitsuki/meta-ads-2.jpeg',
+    };
+
+    const NEROLI_ASSETS = {
+      website: {
+        image: '/assets/neroli/website.png',
+        domain: 'neroli-events.com',
+        brand: 'NEROLI EVENTS',
+      },
+    };
+
+    const WASH_ZEROEAU_ASSETS = {
+      website: {
+        image: '/assets/wash.zeroeau/website.png',
+        domain: 'wash.zeroeau.com',
+        brand: 'WASH ZEROEAU',
+      },
+    };
+
+    const EUROPAREBRISE_ASSETS = {
+      website: {
+        image: '/assets/europarebrise-plus/website.png',
+        domain: 'europarebrise-plus.fr',
+        brand: 'EUROPAREBRISE PLUS',
+      },
+    };
+
+    const ASMA_ASSETS = {
+      instagramHandle: 'asmatravel',
+      instagramLogo: '/assets/asma/logo.jpg',
+      instagramPosts: [
+        'https://instagram.fcmn1-1.fna.fbcdn.net/v/t51.82787-15/631505663_18445426603102814_6852425974596467652_n.heic?stp=dst-jpg_e35_tt6&_nc_cat=107&ig_cache_key=MzgzMDM5MjcxNTM3Mjk5NTk1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTgwMC5zZHIuQzMifQ%3D%3D&_nc_ohc=z9nLPVekT8wQ7kNvwF-GQsf&_nc_oc=AdqzeDPEDIzX9i5sFlmfiImspCujNHNQAgvYyVCnx8Ns4wndjTKW46Ta5ft94bzxiy0&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-1.fna&_nc_gid=GrHtaK2ZiDw3RVV26L6l2Q&_nc_ss=7a22e&oh=00_Af3DKQ6EZ2bRK3OguKJ_yO2Ofucbu0GqPC0tDdNQRawYNw&oe=69F13B73',
+        'https://instagram.fcmn1-1.fna.fbcdn.net/v/t51.82787-15/600975151_18435108013102814_1532986421577369155_n.heic?stp=dst-jpg_e35_tt6&_nc_cat=107&ig_cache_key=Mzc4Nzk4MzA0NDkwMTQ1OTk2OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTgwMC5zZHIuQzMifQ%3D%3D&_nc_ohc=9R49dlYha7EQ7kNvwEPUvTQ&_nc_oc=Adpr4otASiXECWK_mBMogCA8QVmqnukG8bNU-DDzbuZVfZXo5hs8pq3Ri9T9UyrMLo4&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-1.fna&_nc_gid=GrHtaK2ZiDw3RVV26L6l2Q&_nc_ss=7a22e&oh=00_Af0QZEpMBGhZCcJEiJHEUgoDY_PUFB3bjnvxKcj_6Nqg1g&oe=69F1325D',
+        'https://instagram.fcmn1-4.fna.fbcdn.net/v/t51.82787-15/589413951_18433696546102814_3422676409806069780_n.heic?stp=dst-jpg_e35_tt6&_nc_cat=108&ig_cache_key=Mzc4MDE1NjUwODQwODE4MTUwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjExNTJ4MTQ0MC5zZHIuQzMifQ%3D%3D&_nc_ohc=XrckhBJqErQQ7kNvwGwmAl_&_nc_oc=Adof8jWjZimXl_6BgH5EMBU0sB9vpxn6BRWboy2WrTmVlGQ-rcBecXQO2PedDNJFqmc&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-4.fna&_nc_gid=awIA8TyrV1XiuyuOiJoylA&_nc_ss=7a22e&oh=00_Af31pGpu6PZgttGqbjU5Z19yE7tMUZ47F2CFIuZGug4D0A&oe=69F1347F',
+        'https://instagram.fcmn1-2.fna.fbcdn.net/v/t51.82787-15/563326391_18423917197102814_480335793951531006_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzc0MjQzOTkyNTM5NzM1ODE0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEyODB4MTYwMC5zZHIuQzMifQ%3D%3D&_nc_ohc=AEUoPSEdNlcQ7kNvwGsxEyw&_nc_oc=AdrQZTPpzn7XcFBSg0PCdcghYdPfjEII8DPCrjypqE4-SWhvxo_78aXlGg3XYZic20o&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-2.fna&_nc_gid=awIA8TyrV1XiuyuOiJoylA&_nc_ss=7a22e&oh=00_Af1zPTghYIWGqFvFzX_cAAEn0aP5206G7bxeoLLqDNMw0A&oe=69F11B45',
+        'https://instagram.fcmn1-2.fna.fbcdn.net/v/t51.82787-15/521152649_18412340332102814_6765572651905155458_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=MzY4MTcyMDIzMTYzODE2MjM5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEyODB4MTYwMC5zZHIuQzMifQ%3D%3D&_nc_ohc=x4QJ-9xUuIkQ7kNvwGLw233&_nc_oc=Adpu-NeeXDb-bJhQLEKMSB-mUjZE-kYNDkL3FemdeAjt44-kngOowiOK0QyolQfp-Hc&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-2.fna&_nc_gid=cebfe8ov48jIcQRU37ObCw&_nc_ss=7a22e&oh=00_Af37X9YdNoyjjPEBglwz4mQuMfia5bLDdqQEIaQG4On00A&oe=69F130AF',
+        'https://instagram.fcmn1-4.fna.fbcdn.net/v/t51.75761-15/503435222_18407981419102814_3002479374978122434_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&ig_cache_key=MzY1ODMxNjA2NDEzMjAyNTM0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEzNTB4MTY4Ny5zZHIuQzMifQ%3D%3D&_nc_ohc=yScqR5IJLHUQ7kNvwGUXEoa&_nc_oc=AdrHVm1bv5-176eNcY8ZulScE3h2Tu6AaVJeu3yz4lFDMPPViW6KBe98SGl69_5LYHs&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-4.fna&_nc_gid=fZxrJ9Z9eOFCj9uZohX2AA&_nc_ss=7a22e&oh=00_Af0CDxZB300nfBvzq6Dc-HWcSSUiizGps64qC_GGxOlMbQ&oe=69F12327',
+      ],
+      stories: [
+        { label: 'Our Trips', image: '/assets/asma/storie-1.jpg' },
+        { label: 'Reviews', image: '/assets/asma/storie-2.jpg' },
+        { label: 'New Years', image: '/assets/asma/storie-3.jpg' },
+        { label: 'Iftarat Ramadan', image: '/assets/asma/storie-4.jpg' },
+        { label: 'Amghass', image: '/assets/asma/storie-5.jpg' },
+      ],
+    };
+
+    const SOCIAL_ADS_PROJECTS = [
+      {
+        id: 'creche-canadienne',
+        name: 'Creche Canadienne',
+        handle: 'creche_canadienne',
+        instagramLogo: '/assets/creche-canadienne/logo.jpg',
+        tags: ['Early Education', 'Instagram Content', 'Meta Ads'],
+        objective: 'Build parent trust and increase nursery visit requests through informative social content and localized paid campaigns.',
+        workDelivered: 'Instagram post planning and production, audience targeting strategy, lead-focused Meta Ads launch, and weekly optimization.',
+        result: 'More qualified inquiries from local parents and stronger month-over-month lead consistency.',
+        // metaAdsImage: '/assets/creche-canadienne/meta-ads.jpg',
+        metaAdsImage: '/assets/creche-canadienne/meta-ads.jpeg',
+        metaAdsImageSecondary: '/assets/creche-canadienne/meta-ads-2.jpeg',
+        instagramPosts: ['https://instagram.fcmn1-1.fna.fbcdn.net/v/t51.82787-15/610522231_18091620445943578_491046620280086807_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&ig_cache_key=MzgwMDA3OTY2MDg3MzE5NzI4OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEzNTB4MTY4OC5zZHIuQzMifQ%3D%3D&_nc_ohc=ywEj5dzpOAQQ7kNvwFO7IRH&_nc_oc=AdppHLsNRsU5j7Kv-gaF9f2V52BPfUnMQSMvqefMsQjF556-rYoahV74BeAn6GaRZr8&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-1.fna&_nc_gid=6MDWAWzb_SSUvv0_wwZHQQ&_nc_ss=7a22e&oh=00_Af0RbZ9hoVnAHmMCYGT_lh1Gvdozaz-DAiMV-2-iFCDJzw&oe=69F160B6', 'https://instagram.fcmn1-4.fna.fbcdn.net/v/t51.82787-15/615771850_18092805451943578_7549355111945694598_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&ig_cache_key=MzgwOTk1MTkyMjU2MDQ2MTA0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEzNTB4MTY4Ny5zZHIuQzMifQ%3D%3D&_nc_ohc=1qsN7Z54QCwQ7kNvwGUcBUN&_nc_oc=Adq3DZC3fMN2NTnCk-hre0UBf5xBc2pLEgIoRaGhRWZswj5Bd5j_t59ros73hK0J2QY&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-4.fna&_nc_gid=6MDWAWzb_SSUvv0_wwZHQQ&_nc_ss=7a22e&oh=00_Af3700-7qwHZT70sQL3OVo6j0KaC9wXV5ZlT7bssz6AzAg&oe=69F1429D', 'https://instagram.fcmn1-1.fna.fbcdn.net/v/t51.82787-15/586847066_18088419883943578_4525465165053647872_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ig_cache_key=Mzc3NDMwNTA3NTU5OTAwOTE2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEzNTB4MTY4OC5zZHIuQzMifQ%3D%3D&_nc_ohc=fPZoeMeQRSgQ7kNvwGprSEd&_nc_oc=AdpCSt4m1oykwh6tXgmDz2w94aaGGFmY9Bm3G9qKB4AL_RHNyTz-7ZoZgBa8EMyesw4&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-1.fna&_nc_gid=--RIeY_8YeAOeCMTdHVM-g&_nc_ss=7a22e&oh=00_Af2irT4cTHOxg0RXl9-3Zdq4BNNUi5RekL6Bb4AlysElSg&oe=69F164FA', 'https://instagram.fcmn1-2.fna.fbcdn.net/v/t51.82787-15/582094105_18087767851943578_8077742911749035847_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&ig_cache_key=Mzc2ODgzNTkxODc4NzA0NTIyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEzNTB4MTY4OC5zZHIuQzMifQ%3D%3D&_nc_ohc=79ntEyw5peQQ7kNvwGPsYU-&_nc_oc=Adoq1pjPJjlEKGHy3oBeHcRg2QwdDBAvLPz2DbG1mzmXfI9Vun6ZPtOjSonr2dHF8Kw&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-2.fna&_nc_gid=1zZxz57WpajuFDDCDUUhnw&_nc_ss=7a22e&oh=00_Af1lmnsxOgYBqovCZumsm-XFj8xR4RVS9Am-uAapGLUuAw&oe=69F15586', 'https://instagram.fcmn1-2.fna.fbcdn.net/v/t51.82787-15/582013700_18087658399943578_4744900811471884890_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=100&ig_cache_key=Mzc2NzkwOTg5Mjc0MTQ0ODI0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEwODB4MTA4MC5zZHIuQzMifQ%3D%3D&_nc_ohc=1bwQp9O56yUQ7kNvwFoXlUb&_nc_oc=AdqzQcvTB3-26IXdihhz8LsGLOv9JJdQR4KCwtiBh6dZK3AnKX0wSBB2Ul1ItZz5xxI&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-2.fna&_nc_gid=1zZxz57WpajuFDDCDUUhnw&_nc_ss=7a22e&oh=00_Af1vMH9hDDDsrfKSizcaN2cNLDetrK14siUx1c1A5Qjdmw&oe=69F162EE', 'https://instagram.fcmn1-4.fna.fbcdn.net/v/t51.82787-15/582911436_18087687430943578_2307651880910107756_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzc2ODEyMzEzNDM0NDQ1Njk0MjE4MDg3Njg3NDI3OTQzNTc4.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjkwMHgxNjAwLnNkci5DMyJ9&_nc_ohc=zsVC53GNzAQQ7kNvwFk_UU3&_nc_oc=AdoK72VCuLYNj0V0aTwO-rpDu858e53AGgZPXhWfiu5iBP89zxB6YLyJGtVRw-mxhRY&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-4.fna&_nc_gid=1zZxz57WpajuFDDCDUUhnw&_nc_ss=7a22e&oh=00_Af0aAKlnFAl2Owk9TFaaHso5drkDqKmkoAO7lHrTWswW3g&oe=69F1480D'],
+        igColors: ['#1a2b3c', '#284b63', '#2f6f8a'],
+        metrics: [
+          { val: '3.1x', label: 'ROAS', delta: 'vs previous period', good: true },
+          { val: '+46%', label: 'Qualified Leads', delta: 'month-over-month', good: true },
+          { val: '-29%', label: 'Cost per Lead', delta: 'campaign optimization', good: true },
+        ],
+      },
+      {
+        id: 'pur-eclat',
+        name: 'Pur Eclat',
+        handle: 'pur_eclat',
+        instagramLogo: '/assets/pur-eclat/logo.jpg',
+        tags: ['Beauty Brand', 'Instagram Content', 'Meta Ads'],
+        objective: 'Increase product awareness and generate direct message inquiries through a consistent social and paid content strategy.',
+        workDelivered: 'Visual content direction, Instagram post rollout, conversion-focused Meta Ads creatives, and performance monitoring.',
+        result: 'Improved engagement quality and stronger ad efficiency with lower acquisition costs.',
+        metaAdsImage: '/assets/pur-eclat/meta-ads.jpeg',
+        metaAdsImageSecondary: '/assets/pur-eclat/meta-ads-2.jpeg',
+        instagramPosts: ['/assets/pur-eclat/1.jpg', '/assets/pur-eclat/2.jpg', '/assets/pur-eclat/3.jpg', '/assets/pur-eclat/4.jpg', '/assets/pur-eclat/5.jpg', '/assets/pur-eclat/6.jpg'],
+        igColors: ['#3b1022', '#6f1d46', '#a33468'],
+        metrics: [
+          { val: '2.9x', label: 'ROAS', delta: 'stable growth', good: true },
+          { val: '+41%', label: 'Inbound Messages', delta: '30-day period', good: true },
+          { val: '-24%', label: 'Cost per Result', delta: 'creative refresh', good: true },
+        ],
+      },
+      {
+        id: 'grand-mogador-aqua-resort',
+        name: 'Grand Mogador Aqua Resort',
+        handle: 'grand_mogador_aqua_resort',
+        instagramLogo: '/assets/mogador/aqua-resort/logo.jpg',
+        tags: ['Resort', 'Instagram Content', 'Meta Ads'],
+        objective: 'Drive direct reservation demand for seasonal offers by combining social proof content with high-intent paid audiences.',
+        workDelivered: 'Instagram content production, campaign structuring for booking intent, retargeting setup, and ad set optimization.',
+        result: 'Higher booking intent traffic and stronger campaign profitability during offer periods.',
+        metaAdsImage: '/assets/mogador/aqua-resort/meta-ads.jpeg',
+        metaAdsImageSecondary: '/assets/mogador/aqua-resort/meta-ads-2.jpeg',
+        instagramPosts: ['/assets/mogador/aqua-resort/1.jpg', '/assets/mogador/aqua-resort/2.jpg', '/assets/mogador/aqua-resort/3.jpg', '/assets/mogador/aqua-resort/4.jpg', '/assets/mogador/aqua-resort/5.jpg', '/assets/mogador/aqua-resort/6.jpg'],
+        igColors: ['#0f2a3c', '#1a4b68', '#2b6f91'],
+        metrics: [
+          { val: '3.4x', label: 'ROAS', delta: 'offer campaigns', good: true },
+          { val: '+39%', label: 'Booking Leads', delta: 'month-over-month', good: true },
+          { val: '-27%', label: 'Cost per Booking Lead', delta: 'audience refinement', good: true },
+        ],
+      },
+      {
+        id: 'dar-el-machoui',
+        name: 'Dar El Machoui',
+        handle: 'dar_el_machoui',
+        instagramLogo: '/assets/mashawi/logo.jpg',
+        tags: ['Restaurant', 'Instagram Content', 'Meta Ads'],
+        objective: 'Increase table reservations and takeaway orders with local-first Instagram content and Meta campaign targeting.',
+        workDelivered: 'Instagram post planning, creative production, Meta Ads campaign setup, audience segmentation, and weekly optimization.',
+        result: 'Stronger local visibility, more booking inquiries, and improved campaign efficiency during offer periods.',
+        metaAdsImage: '/assets/mashawi/meta-ads.jpeg',
+        metaAdsImageSecondary: '/assets/mashawi/meta-ads-2.jpeg',
+        instagramPosts: [
+          'https://instagram.fcmn1-2.fna.fbcdn.net/v/t51.82787-15/626441861_17932704087174705_1378524970599527713_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=103&ig_cache_key=MzgyMjk2ODczMTM1ODU1ODM0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjExMzd4MTUxNi5zZHIuQzMifQ%3D%3D&_nc_ohc=AuWwbuBUuFQQ7kNvwFrBpvc&_nc_oc=Adq1l2aEtp1__f18PW3Rb7eujQepSrFPPgr9nVuuzwW2H5dhZWNTquLDTDyAxzJ_MME&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-2.fna&_nc_gid=FwaOcrUAKG_IGXs7CJNRuA&_nc_ss=7a22e&oh=00_Af3oYf_UTWClqq64KNUDeKadffddnVxZM_H26vyPJfxUUg&oe=69F5A4DA',
+          'https://instagram.fcmn1-1.fna.fbcdn.net/v/t51.82787-15/632090390_17934126654174705_766399673447567310_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ig_cache_key=MzgzMTU4NDUxMjg3MDgzOTQ5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTkyMC5zZHIuQzMifQ%3D%3D&_nc_ohc=0nPR9Uu6gLsQ7kNvwE22Y9i&_nc_oc=AdrWZQvMYZJ81zZm2EGzAMHf2Y4YojwIXwpeoAsWM421Oxls-Jm0Hq4mvgsoSc6WEck&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-1.fna&_nc_gid=FwaOcrUAKG_IGXs7CJNRuA&_nc_ss=7a22e&oh=00_Af0n4PjJukMumVv5eaC3890Y4_fgXVY0-YN-ps5_AbVUxQ&oe=69F59ECD',
+          'https://instagram.fcmn1-3.fna.fbcdn.net/v/t51.82787-15/631277172_17933669196174705_7463952105607778045_n.jpg?stp=dst-jpegr_e35_tt6&_nc_cat=101&ig_cache_key=MzgyODgyMTUxMDg4Mjk2MzAzMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTkyMC5oZHIuQzMifQ%3D%3D&_nc_ohc=BPp9FwWD7XUQ7kNvwHoZRwO&_nc_oc=AdpPlWDRUkfsstZZvv3ydTrFYn030ixzFls98IZfY8qQ5pSi85sCj20leNpyIrTB4OA&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-3.fna&_nc_gid=FwaOcrUAKG_IGXs7CJNRuA&_nc_ss=7a22e&oh=00_Af3qunJolJyjeEmvVK05JQ6wngY0aBOdzXV12n2MzleCYg&oe=69F58503',
+        ],
+        igColors: ['#2a1308', '#5a2a11', '#8f4a1f'],
+        metrics: [
+          { val: '3.0x', label: 'ROAS', delta: 'local campaigns', good: true },
+          { val: '+35%', label: 'Reservation Leads', delta: 'month-over-month', good: true },
+          { val: '-23%', label: 'Cost per Lead', delta: 'creative refresh', good: true },
+        ],
+      },
+    ];
+
+    const REVIEWS_SHOWCASE = {
+      image: '/assets/reviews.png',
+      fallback: '/assets/reviews/reviews-placeholder.svg',
+      title: 'Client Reviews',
+      subtitle: 'Collected customer feedback and testimonials',
+    };
+
+    function IGGrid({ columns = 3, count, colors = [], images = [] }) {
+      const defaults = ['#1a1a2e', '#16213e', '#0f3460', '#e94560', '#1a1a2e', '#533483'];
+      const cardsCount = typeof count === 'number' ? count : Math.max(images.length, columns);
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${columns},1fr)`, gap: 6 }}>
+          {Array.from({ length: cardsCount }).map((_, i) => {
+            const hasImage = Boolean(images[i]);
+            const start = colors[i] || defaults[i % defaults.length];
+            const end = colors[i + 1] || defaults[(i + 1) % defaults.length];
+            return (
+              <div key={i} style={{
+                aspectRatio: '1', borderRadius: 8,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: '1px solid rgba(255,255,255,0.06)',
+                backgroundImage: hasImage
+                  ? `url(${images[i]}), linear-gradient(135deg, ${start}, ${end})`
+                  : `linear-gradient(135deg, ${start}, ${end})`,
+                backgroundSize: hasImage ? 'cover, cover' : 'cover',
+                backgroundPosition: hasImage ? 'center, center' : 'center',
+                backgroundRepeat: 'no-repeat',
+              }}>
+                {!hasImage && (
+                  <span style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 10, color: 'rgba(255,255,255,0.2)', letterSpacing: '0.08em' }}>post {i + 1}</span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
+
+    function InstagramAvatar({ name = '', logo = '', handle = '' }) {
+      const cleanHandle = (handle || '').replace(/^@/, '').trim();
+      const unavatarSrc = cleanHandle ? `https://unavatar.io/instagram/${encodeURIComponent(cleanHandle)}` : '';
+      const preferredSrc = (logo || '').trim() || unavatarSrc;
+      const [currentSrc, setCurrentSrc] = useState(preferredSrc);
+      const [logoError, setLogoError] = useState(false);
+      const showLogo = Boolean(currentSrc) && !logoError;
+      const initials = name.split(' ').map(part => part[0]).join('').slice(0, 2).toUpperCase();
+
+      useEffect(() => {
+        setCurrentSrc(preferredSrc);
+        setLogoError(false);
+      }, [logo, handle]);
+
+      function handleLogoError() {
+        if (unavatarSrc && currentSrc !== unavatarSrc) {
+          setCurrentSrc(unavatarSrc);
+          return;
+        }
+        setLogoError(true);
+      }
+
+      return (
+        <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#111827,#374151)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+          {showLogo ? (
+            <img
+              src={currentSrc}
+              alt={`${name} logo`}
+              onError={handleLogoError}
+              referrerPolicy="no-referrer"
+              loading="lazy"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          ) : (
+            <span style={{ fontFamily: 'Syne,sans-serif', fontSize: 10, fontWeight: 800, color: '#fff' }}>
+              {initials}
+            </span>
+          )}
+        </div>
+      );
+    }
+
+    function StoryBubble({ story, active = false }) {
+      const fallbackSrc = story.fallback || '/assets/asma/story-placeholder.svg';
+      const [currentSrc, setCurrentSrc] = useState(story.image || fallbackSrc);
+      const [imgError, setImgError] = useState(false);
+      const hasImage = Boolean(currentSrc) && !imgError;
+
+      useEffect(() => {
+        setCurrentSrc(story.image || fallbackSrc);
+        setImgError(false);
+      }, [story.image, story.fallback]);
+
+      function handleStoryError() {
+        if (currentSrc !== fallbackSrc) {
+          setCurrentSrc(fallbackSrc);
+          return;
+        }
+        setImgError(true);
+      }
+
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+          <div style={{
+            width: 44, height: 44, borderRadius: '50%', padding: 2,
+            background: active ? 'linear-gradient(135deg,#f09433,#dc2743)' : '#e4e4e7'
+          }}>
+            <div style={{
+              width: '100%',
+              height: '100%',
+              borderRadius: '50%',
+              border: '2px solid #fff',
+              position: 'relative',
+              overflow: 'hidden',
+              background: 'linear-gradient(135deg,#0a1628,#1e3a5f)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              {hasImage && (
+                <img
+                  src={currentSrc}
+                  alt={`${story.label} story`}
+                  onError={handleStoryError}
+                  referrerPolicy="no-referrer"
+                  loading="lazy"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              )}
+              {!hasImage && (
+                <span style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 9, fontWeight: 700, color: 'rgba(255,255,255,0.9)' }}>
+                  {story.label.slice(0, 2).toUpperCase()}
+                </span>
+              )}
+            </div>
+          </div>
+          <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 9, color: '#52525b' }}>{story.label}</div>
+        </div>
+      );
+    }
+
+    function PhoneReel({ color = '#1a1a2e', color2 = '#533483', label, h = 200, video = '', fallbackVideo = '', poster = '' }) {
+      const [currentVideo, setCurrentVideo] = useState(video || '');
+      const hasVideo = Boolean(currentVideo);
+
+      useEffect(() => {
+        setCurrentVideo(video || '');
+      }, [video]);
+
+      function handleVideoError() {
+        if (fallbackVideo && currentVideo !== fallbackVideo) {
+          setCurrentVideo(fallbackVideo);
+          return;
+        }
+        setCurrentVideo('');
+      }
+
+      return (
+        <div style={{
+          width: 90, height: h,
+          border: '2.5px solid rgba(255,255,255,0.18)',
+          borderRadius: 20, overflow: 'hidden',
+          background: '#0a0a0a', position: 'relative', flexShrink: 0,
+          boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
+        }}>
+          <div style={{
+            position: 'absolute', top: 6, left: '50%', transform: 'translateX(-50%)',
+            width: 28, height: 4, background: 'rgba(255,255,255,0.15)', borderRadius: 2, zIndex: 2
+          }} />
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: `linear-gradient(160deg,${color},${color2})`,
+            overflow: 'hidden',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            {hasVideo && (
+              <video
+                src={currentVideo}
+                poster={poster || undefined}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                onError={handleVideoError}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
+            )}
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.2))' }} />
+            {!hasVideo && (
+              <div style={{
+                position: 'relative',
+                width: 28, height: 28, borderRadius: '50%',
+                border: '2px solid rgba(255,255,255,0.4)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <div style={{ width: 0, height: 0, borderTop: '5px solid transparent', borderBottom: '5px solid transparent', borderLeft: '8px solid rgba(255,255,255,0.6)', marginLeft: 2 }} />
+              </div>
+            )}
+          </div>
+          {label && <div style={{
+            position: 'absolute', bottom: 8, left: 0, right: 0, textAlign: 'center',
+            fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 9, color: 'rgba(255,255,255,0.65)',
+          }}>{label}</div>}
+        </div>
+      );
+    }
+
+    function MetricCard({ val, label, delta, good = true, accent }) {
+      return (
+        <div style={{
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          borderRadius: 12, padding: '16px 20px', flex: 1, minWidth: 100,
+        }}>
+          <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 8 }}>{label}</div>
+          <div style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: 26, fontWeight: 600, color: '#fff', lineHeight: 1, marginBottom: 4 }}>{val}</div>
+          {delta && <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, color: good ? '#22c55e' : '#ef4444' }}>
+            {good ? '+' : '-'} {delta}
+          </div>}
+        </div>
+      );
+    }
+
+    /* â”€â”€ LP Preview â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    function LPPreview({
+      accent,
+      image = '',
+      domain = 'yourdomain.com',
+      brand = 'Landing Page',
+      viewportHeight = 420,
+      frameBg = '#fff',
+      frameBorder = '1px solid rgba(255,255,255,0.1)',
+      frameShadow = '0 12px 48px rgba(0,0,0,0.5)',
+      pageBg = '#f3f4f6',
+      barBg = '#1a1a1a',
+      barInputBg = '#2a2a2a',
+      barText = 'rgba(255,255,255,0.3)',
+    }) {
+      const viewportRef = useRef(null);
+      const imageRef = useRef(null);
+      const [hovered, setHovered] = useState(false);
+      const [imgError, setImgError] = useState(false);
+      const [scrollDistance, setScrollDistance] = useState(0);
+      const [isTouchDevice, setIsTouchDevice] = useState(false);
+      const brandColor = typeof accent === 'string' ? accent : '#E11D48';
+      const brandRgb = (() => {
+        const fallback = '225, 29, 72';
+        if (typeof brandColor !== 'string') return fallback;
+        const value = brandColor.trim();
+        if (!/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(value)) return fallback;
+        let hex = value.slice(1);
+        if (hex.length === 3) hex = hex.split('').map(ch => ch + ch).join('');
+        const n = parseInt(hex, 16);
+        return `${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}`;
+      })();
+
+      const hasImage = Boolean(image) && !imgError;
+
+      function calculateScrollDistance() {
+        if (!viewportRef.current || !imageRef.current) return;
+        const extraHeight = imageRef.current.scrollHeight - viewportRef.current.clientHeight;
+        setScrollDistance(Math.max(0, extraHeight));
+      }
+
+      useEffect(() => {
+        setHovered(false);
+        setImgError(false);
+      }, [image]);
+
+      useEffect(() => {
+        const onResize = () => calculateScrollDistance();
+        window.addEventListener('resize', onResize);
+        return () => window.removeEventListener('resize', onResize);
+      }, []);
+
+      useEffect(() => {
+        if (!window.matchMedia) return;
+        const mediaQuery = window.matchMedia('(hover: none), (pointer: coarse)');
+        const updateInputMode = () => setIsTouchDevice(mediaQuery.matches);
+        updateInputMode();
+        if (mediaQuery.addEventListener) {
+          mediaQuery.addEventListener('change', updateInputMode);
+          return () => mediaQuery.removeEventListener('change', updateInputMode);
+        }
+        mediaQuery.addListener(updateInputMode);
+        return () => mediaQuery.removeListener(updateInputMode);
+      }, []);
+
+      const canTapToScroll = hasImage && scrollDistance > 0 && isTouchDevice;
+      const scrollHintText = isTouchDevice
+        ? (hovered ? 'Tap to reset' : 'Tap to auto-scroll')
+        : 'Hover to auto-scroll';
+
+      return (
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            '--lp-brand': brandColor,
+            '--lp-brand-rgb': brandRgb,
+          }}
+        >
+          <div
+            onMouseEnter={() => !isTouchDevice && setHovered(true)}
+            onMouseLeave={() => !isTouchDevice && setHovered(false)}
+            onClick={() => {
+              if (canTapToScroll) setHovered(v => !v);
+            }}
+            style={{
+              width: '100%', background: frameBg, borderRadius: 12, overflow: 'hidden',
+              border: frameBorder,
+              boxShadow: frameShadow,
+              cursor: canTapToScroll ? 'pointer' : 'default',
+              WebkitTapHighlightColor: 'transparent',
+            }}
+          >
+            <div style={{ background: barBg, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 6 }}>
+              {['#ef4444', '#f59e0b', '#22c55e'].map(c => <div key={c} style={{ width: 9, height: 9, borderRadius: '50%', background: c }} />)}
+              <div style={{ flex: 1, background: barInputBg, borderRadius: 4, height: 18, marginLeft: 8, display: 'flex', alignItems: 'center', padding: '0 10px' }}>
+                <div style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: 9, color: barText }}>{domain}</div>
+              </div>
+            </div>
+
+            <div ref={viewportRef} style={{ position: 'relative', height: viewportHeight, overflow: 'hidden', background: pageBg }}>
+              {hasImage ? (
+                <img
+                  ref={imageRef}
+                  src={image}
+                  onLoad={calculateScrollDistance}
+                  onError={() => setImgError(true)}
+                  alt={`${brand} landing page screenshot`}
+                  style={{
+                    width: '100%',
+                    display: 'block',
+                    transform: `translateY(${hovered ? -scrollDistance : 0}px)`,
+                    transition: hovered ? 'transform 8s linear' : 'transform 0.6s ease-out',
+                  }}
+                />
+              ) : (
+                <div>
+                  <div style={{ height: 90, background: `linear-gradient(135deg,#1a0a05,#3d1a00)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 6 }}>
+                    <div style={{ fontFamily: 'Syne,sans-serif', fontSize: 16, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em' }}>{brand}</div>
+                    <div style={{ width: 60, height: 2, background: accent, borderRadius: 1 }} />
+                  </div>
+                  <div style={{ padding: '14px 16px', background: '#fafafa' }}>
+                    {[70, 90, 55, 65, 100].map((w, i) => (
+                      <div key={i} style={{ height: 22, background: i === 3 ? accent + '33' : '#e4e4e7', borderRadius: 4, marginBottom: 8, width: `${w}%` }} />
+                    ))}
+                    <div style={{ height: 32, background: accent, borderRadius: 6, marginTop: 10 }} />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {hasImage && scrollDistance > 0 && (
+            <>
+              <div className="lp-scroll-callout">
+                <span className="lp-scroll-callout-dot">↓</span>
+                <span className="lp-scroll-callout-label">{scrollHintText}</span>
+              </div>
+              <svg className="lp-scroll-callout-arrow" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+                <path d="M56 8C60 31 47 48 20 56" stroke="currentColor" strokeWidth="4.6" strokeLinecap="round" />
+                <path d="M30 46L20 56L34 60" stroke="currentColor" strokeWidth="4.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </>
+          )}
+        </div>
+      );
+    }
+
+    function ImageShowcase({
+      image = '',
+      fallbackImage = '',
+      title = 'Preview',
+      subtitle = '',
+      height = 260,
+      dark = true,
+    }) {
+      const [currentSrc, setCurrentSrc] = useState(image || fallbackImage || '');
+      const [imgError, setImgError] = useState(false);
+      const hasImage = Boolean(currentSrc) && !imgError;
+
+      useEffect(() => {
+        setCurrentSrc(image || fallbackImage || '');
+        setImgError(false);
+      }, [image, fallbackImage]);
+
+      function handleImageError() {
+        if (fallbackImage && currentSrc !== fallbackImage) {
+          setCurrentSrc(fallbackImage);
+          return;
+        }
+        setImgError(true);
+      }
+
+      return (
+        <div style={{
+          borderRadius: 14,
+          overflow: 'hidden',
+          border: dark ? '1px solid rgba(255,255,255,0.08)' : '1px solid #e4e4e7',
+          background: dark ? 'rgba(255,255,255,0.03)' : '#fff',
+          boxShadow: dark ? '0 10px 36px rgba(0,0,0,0.35)' : '0 8px 28px rgba(0,0,0,0.08)',
+        }}>
+          <div style={{ padding: '12px 14px', borderBottom: dark ? '1px solid rgba(255,255,255,0.08)' : '1px solid #f4f4f5' }}>
+            <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: dark ? 'rgba(255,255,255,0.4)' : '#71717a', marginBottom: 4 }}>{title}</div>
+            {subtitle && <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 12, color: dark ? 'rgba(255,255,255,0.45)' : '#71717a' }}>{subtitle}</div>}
+          </div>
+
+          <div style={{
+            height,
+            background: dark ? 'linear-gradient(135deg,#111827,#1f2937)' : 'linear-gradient(135deg,#f8fafc,#eef2ff)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            position: 'relative',
+          }}>
+            {hasImage && (
+              <img
+                src={currentSrc}
+                alt={title}
+                onError={handleImageError}
+                loading="lazy"
+                referrerPolicy="no-referrer"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            )}
+            {!hasImage && (
+              <span style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 12, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: dark ? 'rgba(255,255,255,0.6)' : '#64748b' }}>
+                Add your image
+              </span>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    function ProjectMogador({ accent }) {
+      return (
+        <div id='work' className="work">
+          {MOGADOR_BRANCHES.map((branch, index) => (
+            <section key={branch.id} style={{ background: T.dark2, padding: '100px clamp(24px,8vw,120px)' }}>
+              <div style={{
+                position: 'absolute', inset: 0, opacity: 0.02, pointerEvents: 'none',
+                backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)',
+                backgroundSize: '48px 48px'
+              }} />
+
+              <div style={{ maxWidth: 1100, margin: '0 auto', position: 'relative' }}>
+                <SectionEyebrow label={`Featured Project - 0${index + 1}`} />
+
+                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 56, flexWrap: 'wrap', gap: 20 }}>
+                  <div>
+                    <div style={{
+                      fontFamily: 'Syne,sans-serif', fontSize: 'clamp(32px,5vw,64px)', fontWeight: 800,
+                      color: '#fff', letterSpacing: '-0.04em', lineHeight: 0.95, marginBottom: 12,
+                    }}>{branch.name}</div>
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                      {branch.tags.map(t => (
+                        <span key={t} style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.45)', background: 'rgba(255,255,255,0.05)', padding: '4px 12px', borderRadius: 20, border: '1px solid rgba(255,255,255,0.08)' }}>{t}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div style={{
+                    padding: '12px 24px', background: 'rgba(255,255,255,0.04)',
+                    border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10,
+                    fontFamily: 'Syne,sans-serif', fontSize: 16, fontWeight: 800, color: 'rgba(255,255,255,0.3)', letterSpacing: '-0.02em'
+                  }}>{branch.logo}</div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 32, marginBottom: 56, padding: '32px', background: 'rgba(255,255,255,0.02)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.05)' }}>
+                  {[
+                    { label: 'Objective', text: branch.objective },
+                    { label: 'Work Delivered', text: branch.workDelivered },
+                    { label: 'Result', text: branch.result },
+                  ].map(({ label, text }) => (
+                    <div key={label}>
+                      <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: accent, marginBottom: 10 }}>{label}</div>
+                      <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 14, lineHeight: 1.75, color: 'rgba(255,255,255,0.55)' }}>{text}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 40, marginBottom: 48 }}>
+                  <div>
+                    <div style={{ marginBottom: 32 }}>
+                      <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 14 }}>Instagram Posts</p>
+                      <IGGrid count={3} colors={['#2d1200', '#1a0800', '#3d1a00', '#5a2a00', '#2d1200', '#1a0800']} images={branch.instagramPosts} />
+                    </div>
+
+                    <div>
+                      <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 14 }}>Reels Showcase</p>
+                      <div style={{ display: 'flex', gap: 14, alignItems: 'flex-end' }}>
+                        {branch.reels.map((reel) => (
+                          <PhoneReel key={reel.label} color={reel.color} color2={reel.color2} label={reel.label} h={reel.h} video={reel.video} fallbackVideo={reel.fallbackVideo} poster={reel.poster} />
+                        ))}
+                        <div style={{ flex: 1, paddingBottom: 8 }}>
+                          <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 13, lineHeight: 1.7, color: 'rgba(255,255,255,0.4)' }}>Short-form content produced monthly - behind-the-scenes, dish showcases, and promotional Reels designed for maximum organic reach.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 14 }}>Landing Page</p>
+                    <LPPreview accent={accent} image={branch.landingPage.image} domain={branch.landingPage.domain} brand={branch.landingPage.brand} />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16, marginBottom: 28 }}>
+                  {[
+                    {
+                      title: 'Meta Ads Creative 01',
+                      subtitle: 'Primary ad visual used in campaigns',
+                      image: branch.metaAdsImage,
+                      fallbackImage: branch.instagramPosts[0],
+                    },
+                    {
+                      title: 'Meta Ads Creative 02',
+                      subtitle: 'Secondary ad variation used for testing',
+                      image: branch.metaAdsImageSecondary || branch.instagramPosts[1] || branch.metaAdsImage,
+                      fallbackImage: branch.instagramPosts[0],
+                    },
+                  ].map((adPart) => (
+                    <ImageShowcase
+                      key={adPart.title}
+                      image={adPart.image}
+                      fallbackImage={adPart.fallbackImage}
+                      title={adPart.title}
+                      subtitle={adPart.subtitle}
+                      height={280}
+                      dark={true}
+                    />
+                  ))}
+                </div>
+
+                <div style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, padding: '28px 32px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+                    <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>Meta Ads Performance</p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.2)', borderRadius: 20, padding: '4px 12px' }}>
+                      <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
+                      <span style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, color: '#22c55e' }}>Active Campaign</span>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: 12 }}>
+                    <MetricCard val={branch.metrics.roas} label="ROAS" delta="vs 2.0x target" good={true} accent={accent} />
+                    <MetricCard val={branch.metrics.ctr} label="CTR" delta="industry avg 0.9%" good={true} accent={accent} />
+                    <MetricCard val={branch.metrics.cpl} label="Cost per Lead" delta="vs prev. period" good={true} accent={accent} />
+                    <MetricCard val={branch.metrics.reach} label="Monthly Reach" delta="organic + paid" good={true} accent={accent} />
+                    <MetricCard val={branch.metrics.cvr} label="Landing Page CVR" delta="benchmark 4-6%" good={true} accent={accent} />
+                  </div>
+                </div>
+              </div>
+            </section>
+          ))}
+        </div>
+      );
+    }
+
+    function ProjectMitsuki({ accent }) {
+      return (
+        <section style={{ background: T.light, padding: '100px clamp(24px,8vw,120px)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <SectionEyebrow label="Project · 02" dark={false} />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
+              <div>
+                <div style={{ fontFamily: 'Syne,sans-serif', fontSize: 'clamp(28px,4vw,52px)', fontWeight: 800, color: '#0B1120', letterSpacing: '-0.04em', lineHeight: 0.95, marginBottom: 12 }}>Mitsuki</div>
+                <div style={{ display: 'flex', gap: 6, marginBottom: 24, flexWrap: 'wrap' }}>
+                  {['Japanese Restaurant', 'Landing Page', 'Meta Ads'].map(t => (
+                    <span key={t} style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, color: '#52525b', background: '#f4f4f5', padding: '4px 12px', borderRadius: 20, border: '1px solid #e4e4e7' }}>{t}</span>
+                  ))}
+                </div>
+                {[
+                  { label: 'Objective', text: 'Drive online reservations for a newly opened Japanese restaurant through a targeted paid media campaign.' },
+                  { label: 'Work Delivered', text: 'High-converting landing page, Meta Ads creative and campaign setup, A/B testing of ad sets.' },
+                  { label: 'Result', text: '2.5x ROAS in the first 60 days. 38% increase in online bookings month-over-month.' },
+                ].map(({ label, text }) => (
+                  <div key={label} style={{ marginBottom: 18 }}>
+                    <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#E11D48', marginBottom: 6 }}>{label}</div>
+                    <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 14, lineHeight: 1.75, color: '#52525b' }}>{text}</p>
+                  </div>
+                ))}
+                <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
+                  <div style={{ flex: 1, background: '#fff', border: '1px solid #e4e4e7', borderRadius: 12, padding: '16px 20px' }}>
+                    <div style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: 28, fontWeight: 600, color: '#0B1120', lineHeight: 1, marginBottom: 4 }}>2.5x</div>
+                    <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#a1a1aa' }}>ROAS</div>
+                  </div>
+                  <div style={{ flex: 1, background: '#fff', border: '1px solid #e4e4e7', borderRadius: 12, padding: '16px 20px' }}>
+                    <div style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: 28, fontWeight: 600, color: '#22c55e', lineHeight: 1, marginBottom: 4 }}>+38%</div>
+                    <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#a1a1aa' }}>Bookings</div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#a1a1aa', marginBottom: 14 }}>Landing Page Preview</p>
+                <LPPreview
+                  accent={accent}
+                  image={MITSUKI_ASSETS.landingPage.image}
+                  domain={MITSUKI_ASSETS.landingPage.domain}
+                  brand={MITSUKI_ASSETS.landingPage.brand}
+                />
+              </div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16, marginTop: 20 }}>
+              {[
+                {
+                  title: 'Meta Ads Creative 01',
+                  subtitle: 'Primary ad concept snapshot',
+                  image: MITSUKI_ASSETS.metaAdsImage,
+                  fallbackImage: MITSUKI_ASSETS.landingPage.image,
+                },
+                {
+                  title: 'Meta Ads Creative 02',
+                  subtitle: 'Secondary ad variation for split testing',
+                  image: MITSUKI_ASSETS.metaAdsImageSecondary || MITSUKI_ASSETS.metaAdsImage,
+                  fallbackImage: MITSUKI_ASSETS.landingPage.image,
+                },
+              ].map((adPart) => (
+                <ImageShowcase
+                  key={adPart.title}
+                  image={adPart.image}
+                  fallbackImage={adPart.fallbackImage}
+                  title={adPart.title}
+                  subtitle={adPart.subtitle}
+                  height={300}
+                  dark={false}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function ProjectNeroli({ accent }) {
+      return (
+        <section style={{ background: '#0f0f13', padding: '100px clamp(24px,8vw,120px)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <SectionEyebrow label="Project · 03" />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
+              <div>
+                <div style={{ fontFamily: 'Syne,sans-serif', fontSize: 'clamp(28px,4vw,52px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.04em', lineHeight: 0.95, marginBottom: 12 }}>Neroli Events</div>
+                <div style={{ display: 'flex', gap: 6, marginBottom: 28, flexWrap: 'wrap' }}>
+                  {['Event Company', 'Website Design', 'Brand Identity'].map(t => (
+                    <span key={t} style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.04)', padding: '4px 12px', borderRadius: 20, border: '1px solid rgba(255,255,255,0.07)' }}>{t}</span>
+                  ))}
+                </div>
+                <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 15, lineHeight: 1.8, color: 'rgba(255,255,255,0.5)', marginBottom: 28 }}>
+                  Designed and built a full brand website for Neroli Events, a premium event planning company, establishing their digital presence with a clean and elevated aesthetic.
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {['Custom website design & development', 'Brand visual identity', 'Mobile-optimized experience', 'SEO foundation & on-page setup'].map(d => (
+                    <div key={d} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <div style={{ width: 6, height: 6, borderRadius: '50%', background: accent, flexShrink: 0 }} />
+                      <span style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 14, color: 'rgba(255,255,255,0.55)' }}>{d}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 14 }}>Website Preview</p>
+                <LPPreview
+                  accent={accent}
+                  image={NEROLI_ASSETS.website.image}
+                  domain={NEROLI_ASSETS.website.domain}
+                  brand={NEROLI_ASSETS.website.brand}
+                  viewportHeight={390}
+                  frameBg="#0a0a12"
+                  frameBorder="1px solid rgba(255,255,255,0.08)"
+                  frameShadow="0 20px 60px rgba(0,0,0,0.6)"
+                  pageBg="#090b14"
+                  barBg="#111"
+                  barInputBg="#1a1a1a"
+                  barText="rgba(255,255,255,0.25)"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function ProjectAsma({ accent }) {
+      return (
+        <section style={{ background: T.light, padding: '100px clamp(24px,8vw,120px)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <SectionEyebrow label="Project · 04" dark={false} />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
+              <div>
+                <div style={{ fontFamily: 'Syne,sans-serif', fontSize: 'clamp(28px,4vw,52px)', fontWeight: 800, color: '#0B1120', letterSpacing: '-0.04em', lineHeight: 0.95, marginBottom: 12 }}>Asma Travel</div>
+                <div style={{ display: 'flex', gap: 6, marginBottom: 28, flexWrap: 'wrap' }}>
+                  {['Travel Agency', 'Social Media', 'Content Strategy', 'Instagram'].map(t => (
+                    <span key={t} style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, color: '#52525b', background: '#f4f4f5', padding: '4px 12px', borderRadius: 20, border: '1px solid #e4e4e7' }}>{t}</span>
+                  ))}
+                </div>
+                <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 15, lineHeight: 1.8, color: '#52525b', marginBottom: 28 }}>
+                  Monthly content strategy and Instagram management for Asma Travel with destination showcases and branded social posts designed to drive direct booking inquiries.
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {['Monthly content calendar & production', 'Destination reels & story templates', 'Caption copywriting in 2 languages', 'Community management & DM responses'].map(d => (
+                    <div key={d} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#E11D48', flexShrink: 0 }} />
+                      <span style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 14, color: '#52525b' }}>{d}</span>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: 'flex', gap: 20, marginTop: 32 }}>
+                  {[['+62%', 'Engagement Rate'], ['3x', 'Follower Growth'], ['40+', 'Posts / Month']].map(([val, lbl]) => (
+                    <div key={lbl}>
+                      <div style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: 24, fontWeight: 600, color: '#0B1120', lineHeight: 1, marginBottom: 4 }}>{val}</div>
+                      <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 10, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#a1a1aa' }}>{lbl}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#a1a1aa', marginBottom: 14 }}>Instagram Content</p>
+                <div style={{ background: '#fff', borderRadius: 16, overflow: 'hidden', border: '1px solid #e4e4e7', boxShadow: '0 8px 32px rgba(0,0,0,0.08)', marginBottom: 8 }}>
+                  <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid #f4f4f5' }}>
+                    <InstagramAvatar name="Asma Travel" logo={ASMA_ASSETS.instagramLogo} handle={ASMA_ASSETS.instagramHandle} />
+                    <div>
+                      <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 13, fontWeight: 700, color: '#0B1120' }}>{ASMA_ASSETS.instagramHandle}</div>
+                      <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, color: '#a1a1aa' }}>Travel · Exploration · Experiences</div>
+                    </div>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 2, padding: 2 }}>
+                    {ASMA_ASSETS.instagramPosts.map((img, i) => (
+                      <div key={i} style={{
+                        aspectRatio: '1',
+                        background: 'linear-gradient(135deg,#0a1628,#1e3a5f)',
+                        backgroundImage: `url(${img})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        display: 'flex', alignItems: 'flex-end', padding: 6,
+                      }}>
+                        {i === 1 && <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 8, color: 'rgba(255,255,255,0.8)', background: 'rgba(0,0,0,0.45)', padding: '2px 5px', borderRadius: 3 }}>Marrakech</div>}
+                        {i === 4 && <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 8, color: 'rgba(255,255,255,0.8)', background: 'rgba(0,0,0,0.45)', padding: '2px 5px', borderRadius: 3 }}>Dubai</div>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 8, padding: '4px 0' }}>
+                  {ASMA_ASSETS.stories.map((story, i) => (
+                    <StoryBubble key={story.label} story={story} active={i === 0} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function ProjectWashZeroeau({ accent }) {
+      return (
+        <section style={{ background: '#0f0f13', padding: '100px clamp(24px,8vw,120px)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <SectionEyebrow label="Project · 05" />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
+              <div>
+                <div style={{ fontFamily: 'Syne,sans-serif', fontSize: 'clamp(28px,4vw,52px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.04em', lineHeight: 0.95, marginBottom: 12 }}>Wash Zeroeau</div>
+                <div style={{ display: 'flex', gap: 6, marginBottom: 28, flexWrap: 'wrap' }}>
+                  {['Car Wash', 'Website Design', 'Brand Identity'].map(t => (
+                    <span key={t} style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.4)', background: 'rgba(255,255,255,0.04)', padding: '4px 12px', borderRadius: 20, border: '1px solid rgba(255,255,255,0.07)' }}>{t}</span>
+                  ))}
+                </div>
+                <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 15, lineHeight: 1.8, color: 'rgba(255,255,255,0.5)', marginBottom: 28 }}>
+                  Designed and built a full brand website for Wash Zeroeau, an innovative car wash service, establishing their digital presence with a clean, modern, and user-friendly aesthetic.
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {['Custom website design & development', 'Service showcase & booking integration', 'Mobile-optimized experience', 'SEO foundation & on-page setup'].map(d => (
+                    <div key={d} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <div style={{ width: 6, height: 6, borderRadius: '50%', background: accent, flexShrink: 0 }} />
+                      <span style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 14, color: 'rgba(255,255,255,0.55)' }}>{d}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 14 }}>Website Preview</p>
+                <LPPreview
+                  accent={accent}
+                  image={WASH_ZEROEAU_ASSETS.website.image}
+                  domain={WASH_ZEROEAU_ASSETS.website.domain}
+                  brand={WASH_ZEROEAU_ASSETS.website.brand}
+                  viewportHeight={390}
+                  frameBg="#0a0a12"
+                  frameBorder="1px solid rgba(255,255,255,0.08)"
+                  frameShadow="0 20px 60px rgba(0,0,0,0.6)"
+                  pageBg="#090b14"
+                  barBg="#111"
+                  barInputBg="#1a1a1a"
+                  barText="rgba(255,255,255,0.25)"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function ProjectEuroparebrise({ accent }) {
+      return (
+        <section style={{ background: T.light, padding: '100px clamp(24px,8vw,120px)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <SectionEyebrow label="Project · 06" dark={false} />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
+              <div>
+                <div style={{ fontFamily: 'Syne,sans-serif', fontSize: 'clamp(28px,4vw,52px)', fontWeight: 800, color: '#0B1120', letterSpacing: '-0.04em', lineHeight: 0.95, marginBottom: 12 }}>Europarebrise Plus</div>
+                <div style={{ display: 'flex', gap: 6, marginBottom: 28, flexWrap: 'wrap' }}>
+                  {['Auto Glass Service', 'Website Design', 'Conversion Optimization'].map(t => (
+                    <span key={t} style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, color: '#52525b', background: '#f4f4f5', padding: '4px 12px', borderRadius: 20, border: '1px solid #e4e4e7' }}>{t}</span>
+                  ))}
+                </div>
+                <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 15, lineHeight: 1.8, color: '#52525b', marginBottom: 28 }}>
+                  Developed a high-converting service website for Europarebrise Plus, a professional auto glass repair company, designed to capture leads and highlight their expertise and reliability.
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {['Custom lead generation website', 'Trust-building visual identity', 'Mobile-first booking experience', 'Local SEO optimization'].map(d => (
+                    <div key={d} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#E11D48', flexShrink: 0 }} />
+                      <span style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 14, color: '#52525b' }}>{d}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#a1a1aa', marginBottom: 14 }}>Website Preview</p>
+                <LPPreview
+                  accent={accent}
+                  image={EUROPAREBRISE_ASSETS.website.image}
+                  domain={EUROPAREBRISE_ASSETS.website.domain}
+                  brand={EUROPAREBRISE_ASSETS.website.brand}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function ProjectSocialAds({ accent }) {
+      return (
+        <div>
+          {SOCIAL_ADS_PROJECTS.map((project, index) => (
+            <section key={project.id} style={{ background: index % 2 === 0 ? '#0f0f13' : '#101421', padding: '100px clamp(24px,8vw,120px)' }}>
+              <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+                <SectionEyebrow label={`Project · ${String(7 + index).padStart(2, '0')}`} />
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
+                  <div>
+                    <div style={{ fontFamily: 'Syne,sans-serif', fontSize: 'clamp(28px,4vw,52px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.04em', lineHeight: 0.95, marginBottom: 12 }}>{project.name}</div>
+                    <div style={{ display: 'flex', gap: 6, marginBottom: 24, flexWrap: 'wrap' }}>
+                      {project.tags.map((tag) => (
+                        <span key={tag} style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.45)', background: 'rgba(255,255,255,0.04)', padding: '4px 12px', borderRadius: 20, border: '1px solid rgba(255,255,255,0.08)' }}>{tag}</span>
+                      ))}
+                    </div>
+                    {[
+                      { label: 'Objective', text: project.objective },
+                      { label: 'Work Delivered', text: project.workDelivered },
+                      { label: 'Result', text: project.result },
+                    ].map(({ label, text }) => (
+                      <div key={label} style={{ marginBottom: 18 }}>
+                        <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#E11D48', marginBottom: 6 }}>{label}</div>
+                        <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 14, lineHeight: 1.75, color: 'rgba(255,255,255,0.56)' }}>{text}</p>
+                      </div>
+                    ))}
+                    <div style={{ marginTop: 26 }}>
+                      <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 14 }}>Meta Ads Result</p>
+                      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                        {project.metrics.map((metric) => (
+                          <MetricCard key={metric.label} val={metric.val} label={metric.label} delta={metric.delta} good={metric.good} accent={accent} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 14 }}>Instagram Posts</p>
+                    <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 10px 36px rgba(0,0,0,0.4)' }}>
+                      <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                        <InstagramAvatar name={project.name} logo={project.instagramLogo} handle={project.handle} />
+                        <div>
+                          <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 13, fontWeight: 700, color: '#fff' }}>{project.handle}</div>
+                          <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 11, color: 'rgba(255,255,255,0.4)' }}>Instagram Content · Campaign Creative</div>
+                        </div>
+                      </div>
+                      <div style={{ padding: 8 }}>
+                        <IGGrid columns={3} count={project.instagramPosts.length || 3} images={project.instagramPosts} colors={project.igColors} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {project.tags.includes('Meta Ads') && (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 16, marginTop: 20 }}>
+                    {[
+                      {
+                        title: 'Meta Ads Creative 01',
+                        subtitle: 'Primary campaign ad image',
+                        image: project.metaAdsImage || project.instagramPosts[0],
+                        fallbackImage: project.instagramPosts[0],
+                      },
+                      {
+                        title: 'Meta Ads Creative 02',
+                        subtitle: 'Secondary campaign ad variation',
+                        image: project.metaAdsImageSecondary || project.instagramPosts[1] || project.instagramPosts[0],
+                        fallbackImage: project.instagramPosts[0],
+                      },
+                    ].map((adPart) => (
+                      <ImageShowcase
+                        key={adPart.title}
+                        image={adPart.image}
+                        fallbackImage={adPart.fallbackImage}
+                        title={adPart.title}
+                        subtitle={adPart.subtitle}
+                        height={290}
+                        dark={true}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
+          ))}
+        </div>
+      );
+    }
+
+    function ReviewsShowcaseSection() {
+      return (
+        <section style={{ background: T.light, padding: '96px clamp(24px,8vw,120px)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <SectionEyebrow label="Reviews" dark={false} />
+            <h2 style={{ fontFamily: 'Syne,sans-serif', fontSize: 'clamp(34px,5vw,64px)', fontWeight: 800, color: '#0B1120', letterSpacing: '-0.04em', marginBottom: 16 }}>
+              Reviews Collection
+            </h2>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 20 }}>
+              <ImageShowcase
+                image={REVIEWS_SHOWCASE.image}
+                fallbackImage={REVIEWS_SHOWCASE.fallback}
+                title={REVIEWS_SHOWCASE.title}
+                subtitle={REVIEWS_SHOWCASE.subtitle}
+                height={420}
+                dark={false}
+              />
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    function Process({ accent }) {
+      const steps = [
+        { n: '01', title: 'Strategy', desc: 'Audience research, competitor audit, funnel mapping, and campaign architecture.' },
+        { n: '02', title: 'Creative', desc: 'Ad creatives, copy, visual identity - everything built to stop the scroll.' },
+        { n: '03', title: 'Landing Page', desc: 'Conversion-focused page design and build with mobile-first approach.' },
+        { n: '04', title: 'Campaign Launch', desc: 'Paid media setup, targeting, tracking pixels, and go-live.' },
+        { n: '05', title: 'Optimization', desc: 'Weekly analysis, A/B testing, and scaling what works.' },
+      ];
+      return (
+        <section id="process" style={{ background: T.dark2, padding: '100px clamp(24px,8vw,120px)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <SectionEyebrow label="How I Work" />
+            <h2 style={{ fontFamily: 'Syne,sans-serif', fontSize: 'clamp(28px,4vw,48px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.04em', marginBottom: 56 }}>The Process</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 2, position: 'relative' }}>
+              {steps.map((s, i) => (
+                <div key={s.n} style={{
+                  padding: '28px 24px',
+                  background: i === 0 ? `${accent}12` : 'rgba(255,255,255,0.02)',
+                  border: `1px solid ${i === 0 ? `${accent}30` : 'rgba(255,255,255,0.06)'}`,
+                  borderRadius: 14, position: 'relative',
+                }}>
+                  <div style={{ fontFamily: 'JetBrains Mono,monospace', fontSize: 11, fontWeight: 600, color: accent, letterSpacing: '0.12em', marginBottom: 16 }}>{s.n}</div>
+                  <div style={{ fontFamily: 'Syne,sans-serif', fontSize: 17, fontWeight: 700, color: '#fff', marginBottom: 10 }}>{s.title}</div>
+                  <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 13, lineHeight: 1.7, color: 'rgba(255,255,255,0.4)' }}>{s.desc}</p>
+                  {i < steps.length - 1 && (
+                    <div style={{
+                      position: 'absolute', top: '50%', right: -14, transform: 'translateY(-50%)',
+                      color: 'rgba(255,255,255,0.15)', fontSize: 18, zIndex: 2
+                    }}></div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* â”€â”€ Final CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    function CTA({ accent }) {
+      return (
+        <section id="contact" style={{ background: T.dark, padding: '120px clamp(24px,8vw,120px)', position: 'relative', overflow: 'hidden' }}>
+          {/* Glow */}
+          <div style={{
+            position: 'absolute', top: '-20%', left: '50%', transform: 'translateX(-50%)',
+            width: 600, height: 400,
+            background: `radial-gradient(circle, ${accent}18 0%, transparent 65%)`,
+            pointerEvents: 'none'
+          }} />
+          <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+            <SectionEyebrow label="Let's Collaborate" />
+            <h2 style={{ fontFamily: 'Syne,sans-serif', fontSize: 'clamp(32px,5vw,60px)', fontWeight: 800, color: '#fff', letterSpacing: '-0.04em', lineHeight: 1.1, marginBottom: 16 }}>
+              Ready to build something that <span style={{ color: accent }}>converts?</span>
+            </h2>
+            <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 16, lineHeight: 1.75, color: 'rgba(255,255,255,0.5)', marginBottom: 48 }}>
+              Whether it's a landing page, a full funnel, or a Meta Ads campaign - let's talk about what you need and how to make it happen.
+            </p>
+            <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href="https://wa.me/212703280415" style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 15, fontWeight: 700, color: '#fff',
+                background: '#25D366', padding: '16px 32px', borderRadius: 10,
+                boxShadow: '0 8px 24px rgba(37,211,102,0.3)', transition: 'all 0.25s',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = ''; }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
+                WhatsApp
+              </a>
+              <a href="mailto:contact@clickboost.ma" style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 15, fontWeight: 700, color: '#fff',
+                background: 'rgba(255,255,255,0.06)',
+                border: '1.5px solid rgba(255,255,255,0.12)',
+                padding: '16px 32px', borderRadius: 10,
+                transition: 'all 0.25s',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+                contact@clickboost.ma
+              </a>
+              <a href="https://instagram.com/click___boost" style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 15, fontWeight: 700, color: '#fff',
+                background: 'linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)',
+                padding: '16px 32px', borderRadius: 10,
+                boxShadow: '0 8px 24px rgba(220,39,67,0.3)',
+                transition: 'all 0.25s',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = ''; }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
+                @clickboost
+              </a>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* â”€â”€ Footer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    function Footer({ accent }) {
+      return (
+        <footer style={{ background: '#050505', padding: '24px clamp(24px,5vw,80px)', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ fontFamily: 'Syne,sans-serif', fontSize: 16, fontWeight: 800, color: 'rgba(255,255,255,0.25)', letterSpacing: '-0.03em' }}>CB<span style={{ color: accent }}>.</span></div>
+          <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 12, color: 'rgba(255,255,255,0.2)' }}>(c) 2026 - Built to convert.</div>
+        </footer>
+      );
+    }
+
+    /* â”€â”€ App â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    function App() {
+      const tw = useTweaks();
+      const accent = tw.accentColor || '#E11D48';
+      const headline = tw.heroHeadline || 'YOUR NAME';
+      return (
+        <>
+          <Nav accent={accent} />
+          <Hero accent={accent} headline={headline} />
+          <About accent={accent} />
+          <Brands />
+          <ProjectMogador accent={accent} />
+          <ProjectMitsuki accent={accent} />
+          <ProjectNeroli accent={accent} />
+          <ProjectAsma accent={accent} />
+          <ProjectWashZeroeau accent={accent} />
+          <ProjectEuroparebrise accent={accent} />
+          <ProjectSocialAds accent={accent} />
+          <ReviewsShowcaseSection />
+          <Process accent={accent} />
+          <CTA accent={accent} />
+          <Footer accent={accent} />
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+
+</html>
