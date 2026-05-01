@@ -719,11 +719,28 @@
     /* â”€â”€ Brands â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     function Brands() {
       const logos = [
-        { name: 'Asma Travel', src: '/assets/asma/logo.jpg' },
-        { name: 'Creche Canadienne', src: '/assets/creche-canadienne/logo.jpg' },
-        { name: 'Mashawi', src: '/assets/mashawi/logo.jpg' },
-        { name: 'Grand Mogador Aqua Resort', src: '/assets/mogador/aqua-resort/logo.jpg' },
-        { name: 'Pur Eclat', src: '/assets/pur-eclat/logo.jpg' },
+        { src: '/assets/brands/1.png' },
+        { src: '/assets/brands/2.png' },
+        { src: '/assets/brands/3.png' },
+        { src: '/assets/brands/4.png' },
+        { src: '/assets/brands/5.png' },
+        { src: '/assets/brands/3.png' },
+        { src: '/assets/brands/6.png' },
+        { src: '/assets/brands/7.png' },
+        { src: '/assets/brands/3.png' },
+        { src: '/assets/brands/8.png' },
+        { src: '/assets/brands/9.png' },
+        { src: '/assets/brands/3.png' },
+        { src: '/assets/brands/1.png' },
+        { src: '/assets/brands/2.png' },
+        { src: '/assets/brands/3.png' },
+        { src: '/assets/brands/4.png' },
+        { src: '/assets/brands/5.png' },
+        { src: '/assets/brands/3.png' },
+        { src: '/assets/brands/6.png' },
+        { src: '/assets/brands/7.png' },
+        { src: '/assets/brands/8.png' },
+        { src: '/assets/brands/9.png' },
       ];
       const marqueeLogos = [...logos, ...logos];
       return (
@@ -742,7 +759,7 @@
                     key={`${logo.name}-${index}`}
                     src={logo.src}
                     alt={`${logo.name} logo`}
-                    className="h-12 w-auto shrink-0 object-contain opacity-80 transition-opacity duration-300 hover:opacity-100 md:h-14"
+                    className="h-12 w-auto shrink-0 object-contain opacity-80 transition-opacity duration-300 hover:opacity-100 md:h-14 grayscale"
                     loading="lazy"
                   />
                 ))}
@@ -776,8 +793,8 @@
         result: '3.8x ROAS on paid campaigns. Organic reach grew 140%. Landing page conversion reached 12%.',
         instagramPosts: [
           'https://instagram.fcmn1-2.fna.fbcdn.net/v/t51.71878-15/670390981_1353005926636238_1815253190718294471_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzg3NDMzMTM5MTM0OTc4OTkwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjY0MHgxMTM2LnNkci5DMyJ9&_nc_ohc=bQiHJFYHWZIQ7kNvwG3o0ov&_nc_oc=AdpdcXRNYNbce9_CTaeIiDPELh7RIWoKxRpCmtwyk9_WesMm3BENH_t72sUO8VMl7JI&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-2.fna&_nc_gid=1_CvVjek_2jCX_UaGW1o7g&_nc_ss=7a22e&oh=00_Af2EUcJtAJ5s1PBAYUen2O7aD0KfN_N5972Tzmv0fuKhLg&oe=69F04681',
-          'https://instagram.fcmn1-1.fna.fbcdn.net/v/t51.82787-15/656294838_17929207146233212_8917560930109068674_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&ig_cache_key=Mzg2MDU1Njg5MzIyODE1NzU4MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4OTYwLnNkci5DMyJ9&_nc_ohc=6rar2t7Brh4Q7kNvwHinozi&_nc_oc=Adp_zudHjW2pepwTR7K4wGDbU2VlU9Kwekvc6GY6PiWfKYWxMUYnuOUnO3JX-o5eCGk&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-1.fna&_nc_gid=1_CvVjek_2jCX_UaGW1o7g&_nc_ss=7a22e&oh=00_Af03HQ4VggDwfcMwgA7lHvyDiNZnyUgSz_Ln-TG6Qqc9Mw&oe=69F0432C',
-          'https://instagram.fcmn1-2.fna.fbcdn.net/v/t51.75761-15/491417547_17890349382233212_1679801691305057481_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=MzYxODUxMjcyNTMxNTUwMTI5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEzMzJ4MTY2Ni5zZHIuQzMifQ%3D%3D&_nc_ohc=kB4m0GJg_1YQ7kNvwHFkq3x&_nc_oc=AdqoHDD5uX1LvkZOcNt16XhrRIvQePI3CvGz9jo30jIteHsFDoDpjnt0yx4kbRX4UfA&_nc_ad=z-m&_nc_cid=1404&_nc_zt=23&_nc_ht=instagram.fcmn1-2.fna&_nc_gid=jGy_-_qhlIjuaxt8RjLMCQ&_nc_ss=7a22e&oh=00_Af1nwTepBxuRsVa012bauGbfccyOKiNsLe-K_6xcsbrFCA&oe=69EFFF0F',
+          '/assets/mogador/agdal/post-1.jpg',
+          '/assets/mogador/agdal/post-2.jpg',
         ],
         reels: [
           { label: 'Reel 01', video: '/assets/mogador/agdal/reel-1.mp4', fallbackVideo: '/assets/mogador/agdal/reel-01.mp4', h: 190, color: '#2d1200', color2: '#8B4513' },
